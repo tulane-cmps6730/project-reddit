@@ -16,8 +16,12 @@ import os
 def write_default_config(path):
 	w = open(path, 'wt')
 	w.write('[data]\n')
-	w.write('url = https://www.dropbox.com/s/o0nxd8pnwy809u2/headlines.csv?dl=1\n')
-	w.write('file = %s%s%s\n' % (nlp_path, os.path.sep, 'headlines.csv'))
+	w.write('url1 = https://raw.githubusercontent.com/tulane-cmps6730/project-reddit/main/data/train.csv\n')
+    w.write('file1 = %s%s%s\n' % (nlp_path, os.path.sep, 'train.csv'))
+    w.write('url2 = https://raw.githubusercontent.com/tulane-cmps6730/project-reddit/main/data/test.csv\n')
+    w.write('file2 = %s%s%s\n' % (nlp_path, os.path.sep, 'test.csv'))
+    w.write('url3 = https://raw.githubusercontent.com/tulane-cmps6730/project-reddit/main/data/test.csv.csv\n')
+    w.write('file3 = %s%s%s\n' % (nlp_path, os.path.sep, 'validation.csv'))
 	w.close()
 
 # Find NLP_HOME path
