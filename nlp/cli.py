@@ -59,7 +59,7 @@ def data2df():
     print("Train DataFrame:")
     print(train_df.head())
     print("Validation DataFrame:")
-    print(validation_df.head())
+    print(val_df.head())
     print("Test DataFrame:")
     print(test_df.head())
 
