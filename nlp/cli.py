@@ -12,7 +12,7 @@ import re
 import requests
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics import f1_score, precision_score, recall_score
-from sklearn.naive_bayes import BernoulliNB
+from sklearn.naive_bayes import BernoulliNB, LogisticRegression
 
 from . import clf_path, config, config_path
 
@@ -52,7 +52,7 @@ def data2df():
     Get Dataframes For Analysis. (Do Second)
     """
     train_df = pd.read_csv(config.get('data', 'file1'))
-    validation_df = pd.read_csv(config.get('data', 'file2'))
+    val_df = pd.read_csv(config.get('data', 'file2'))
     test_df = pd.read_csv(config.get('data', 'file3'))
 
     # Optionally print DataFrames to verify contents
@@ -93,6 +93,22 @@ def train_nb():
     bnb = BernoulliNB()
     vec_1 = CountVectorizer(tokenizer=process_text)
     X = vec_1.fit_transform(train_df["Comment"])
+    y = train_df["Result_Bin"]
+    lr.fit(X,y)
+    y_pred = lr.predict(val_df["Stemmed"])
+    y_val = val_df["Result_Bin"]
+    # Calculate F1
+    f1 = f1_score(y_val, y_pred)
+    print("F1 Score:", round(f1,3))
+
+@main.command('train_bn')
+def train_lr():
+    """
+    Train a Bernoulli Naive Bayes Model (Do Third)
+    """
+    lr = LogisticRegression()
+    vec_2 = CountVectorizer(tokenizer=process_text)
+    X = vec_2.fit_transform(train_df["Comment"])
     y = train_df["Result_Bin"]
     bnb.fit(X,y)
     y_pred = BNB.predict(val_df["Stemmed"])
