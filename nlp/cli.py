@@ -15,7 +15,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import accuracy_score, classification_report
 
-from . import clf_path, config
+from . import clf_path, config, config_path
 
 @click.group()
 def main(args=None):
