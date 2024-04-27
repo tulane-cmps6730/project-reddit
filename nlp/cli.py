@@ -36,16 +36,17 @@ def dl_data():
     """
     Download training/validation/testing data.
     """
+
     print("Configuration file path:", config_path)
     
-    for i in range(1, 4):
+    for i in range(1, 4):  # Ensure this matches the number of URLs in your configuration
         data_url = config.get('data', f'url{i}')
         data_file = config.get('data', f'file{i}')
         print('downloading from %s to %s' % (data_url, data_file))
-        r = requests.get(data_url)
-        with open(data_file, 'wt') as f:
-            f.write(r.text)
-    
+        response = requests.get(data_url)
+        with open(data_file, 'wb') as f:  # Use 'wb' for writing in binary mode which is suitable for files downloaded from URLs
+            f.write(response.content)
+            
 @main.command('data2df')
 def data2df():
     """
