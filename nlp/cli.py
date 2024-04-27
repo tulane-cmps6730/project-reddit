@@ -33,7 +33,7 @@ def web(port):
 @main.command('dl-data')
 def dl_data():
     """
-    Download training/validation/testing data. (Do First)
+    Get data. (Do First)
     """
 
     print("Configuration file path:", config_path)
@@ -49,7 +49,7 @@ def dl_data():
 @main.command('data2df')
 def data2df():
     """
-    Get Dataframes For Analysis. (Do Second)
+    Get Dataframes. (Do Second)
     """
     train_df = pd.read_csv(config.get('data', 'file1'))
     val_df = pd.read_csv(config.get('data', 'file2'))
@@ -88,7 +88,7 @@ def process_text(document):
 @main.command('train_bn')
 def train_nb():
     """
-    Train a Bernoulli Naive Bayes Model (Do Third)
+    Naive Bayes Model (Do Third)
     """
     bnb = BernoulliNB()
     vec_1 = CountVectorizer(tokenizer=process_text)
@@ -101,10 +101,10 @@ def train_nb():
     f1 = f1_score(y_val, y_pred)
     print("F1 Score:", round(f1,3))
 
-@main.command('train_bn')
+@main.command('train_lr')
 def train_lr():
     """
-    Train a Bernoulli Naive Bayes Model (Do Third)
+    Logistic Regression Model (Do Fourth)
     """
     lr = LogisticRegression()
     vec_2 = CountVectorizer(tokenizer=process_text)
