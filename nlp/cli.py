@@ -11,9 +11,8 @@ import pandas as pd
 import re
 import requests
 from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import StratifiedKFold
-from sklearn.metrics import accuracy_score, classification_report
+from sklearn.metrics import f1_score, precision_score, recall_score
+from sklearn.naive_bayes import BernoulliNB
 
 from . import clf_path, config, config_path
 
@@ -58,16 +57,40 @@ def data2df():
     print(df_list)
     return df_list
 
-@main.command('stats')
-def stats():
-    """
-    Read the data files and print interesting statistics.
-    """
-    df = data2df()
-    print('%d rows' % len(df))
-    print('label counts:')
-    print(df.partisan.value_counts())    
+def process_text(document):
+    # Tokenize the document
+    tokens = document.split()
+    tokens = [re.sub(r'^\W+|\W+$', '', token) for token in tokens]
+    tokens = [token.lower() for token in tokens]
+    
+    # Remove stopwords
+    stop_words = set(stopwords.words('english'))
+    tokens = [token for token in tokens if token not in stop_words]
+    
+    # Stem the tokens
+    stemmer = PorterStemmer()
+    stemmed_tokens = [stemmer.stem(token) for token in tokens]
+    
+    # Join the tokens back into a string
+    processed_text = ' '.join(stemmed_tokens)
+    
+    return processed_text
 
+@main.command('train_bn')
+def train_nb():
+    """
+    Train a Bernoulli Naive Bayes Model
+    """
+    bnb = BernoulliNB()
+    vec_1 = CountVectorizer(tokenizer=process_text)
+    X = vec.fit_transform(train["Comment"])
+    y = train["Result_Bin"]
+    bnb.fit(X,y)
+    y_pred = BNB.predict(validation["Stemmed"])
+    y_val = validation["Result_Bin"]
+    # Calculate F1
+    f1 = f1_score(y_val, y_pred)
+    print("F1 Score:", round(f1,3))
 
 
 if __name__ == "__main__":
