@@ -36,6 +36,8 @@ def dl_data():
     """
     Download training/validation/testing data.
     """
+    print("Configuration file path:", config_path)
+    
     for i in range(1, 4):
         data_url = config.get('data', f'url{i}')
         data_file = config.get('data', f'file{i}')
