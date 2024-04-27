@@ -12,8 +12,8 @@ import re
 import requests
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics import f1_score, precision_score, recall_score
-from sklearn.naive_bayes import BernoulliNB, LogisticRegression
-
+from sklearn.naive_bayes import BernoulliNB
+from sklearn.linear_model import LogisticRegression
 from . import clf_path, config, config_path
 
 @click.group()
