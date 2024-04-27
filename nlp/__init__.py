@@ -14,15 +14,14 @@ import os
 # such as where data will be downloaded from.
 # here is an example.
 def write_default_config(path):
-    w = open(path, 'wt')
-    w.write('[data]\n')
-    w.write('url1 = https://raw.githubusercontent.com/tulane-cmps6730/project-reddit/main/data/train.csv\n')
-    w.write('file1 = %s%s%s\n' % (nlp_path, os.path.sep, 'train.csv'))
-    w.write('url2 = https://raw.githubusercontent.com/tulane-cmps6730/project-reddit/main/data/test.csv\n')
-    w.write('file2 = %s%s%s\n' % (nlp_path, os.path.sep, 'test.csv'))
-    w.write('url3 = https://raw.githubusercontent.com/tulane-cmps6730/project-reddit/main/data/validation.csv\n')
-    w.write('file3 = %s%s%s\n' % (nlp_path, os.path.sep, 'validation.csv'))
-    w.close()
+    with open(path, 'wt') as w:
+        w.write('[data]\n')
+        w.write('url1 = https://raw.githubusercontent.com/tulane-cmps6730/project-reddit/main/data/train.csv\n')
+        w.write('file1 = %s%s%s\n' % (nlp_path, os.path.sep, 'train.csv'))
+        w.write('url2 = https://raw.githubusercontent.com/tulane-cmps6730/project-reddit/main/data/test.csv\n')
+        w.write('file2 = %s%s%s\n' % (nlp_path, os.path.sep, 'test.csv'))
+        w.write('url3 = https://raw.githubusercontent.com/tulane-cmps6730/project-reddit/main/data/validation.csv\n')
+        w.write('file3 = %s%s%s\n' % (nlp_path, os.path.sep, 'validation.csv'))
 
 # Find NLP_HOME path
 if 'NLP_HOME' in os.environ:
