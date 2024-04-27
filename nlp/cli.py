@@ -86,7 +86,7 @@ def process_text(document):
     return processed_text
 
 @main.command('train_bn')
-def train_nb():
+def train_nb(train_df, val_df):
     """
     Naive Bayes Model (Do Third)
     """
@@ -102,7 +102,7 @@ def train_nb():
     print("F1 Score:", round(f1,3))
 
 @main.command('train_lr')
-def train_lr():
+def train_lr(train_df, val_df):
     """
     Logistic Regression Model (Do Fourth)
     """
