@@ -33,7 +33,7 @@ def web(port):
 @main.command('dl-data')
 def dl_data():
     """
-    Download training/validation/testing data.
+    Download training/validation/testing data. (Do First)
     """
 
     print("Configuration file path:", config_path)
@@ -49,13 +49,22 @@ def dl_data():
 @main.command('data2df')
 def data2df():
     """
-    Get Dataframes For Analysis.
+    Get Dataframes For Analysis. (Do Second)
     """
-    df_list = []
-    for i in range(1, 4):
-        df_list.append(pd.read_csv(config.get('data', f'file{i}')))
-    print(df_list)
-    return df_list
+    train_df = pd.read_csv(config.get('data', 'file1'))
+    validation_df = pd.read_csv(config.get('data', 'file2'))
+    test_df = pd.read_csv(config.get('data', 'file3'))
+
+    # Optionally print DataFrames to verify contents
+    print("Train DataFrame:")
+    print(train_df.head())
+    print("Validation DataFrame:")
+    print(validation_df.head())
+    print("Test DataFrame:")
+    print(test_df.head())
+
+    # Return the DataFrames as separate variables
+    return train_df, val_df, test_df
 
 def process_text(document):
     # Tokenize the document
@@ -79,15 +88,15 @@ def process_text(document):
 @main.command('train_bn')
 def train_nb():
     """
-    Train a Bernoulli Naive Bayes Model
+    Train a Bernoulli Naive Bayes Model (Do Third)
     """
     bnb = BernoulliNB()
     vec_1 = CountVectorizer(tokenizer=process_text)
-    X = vec.fit_transform(train["Comment"])
-    y = train["Result_Bin"]
+    X = vec_1.fit_transform(train_df["Comment"])
+    y = train_df["Result_Bin"]
     bnb.fit(X,y)
-    y_pred = BNB.predict(validation["Stemmed"])
-    y_val = validation["Result_Bin"]
+    y_pred = BNB.predict(val_df["Stemmed"])
+    y_val = val_df["Result_Bin"]
     # Calculate F1
     f1 = f1_score(y_val, y_pred)
     print("F1 Score:", round(f1,3))
