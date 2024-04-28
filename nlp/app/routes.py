@@ -2,6 +2,7 @@ from flask import render_template, flash, redirect, session
 from . import app
 from .forms import MyForm
 from .. import bnb_path
+from ..function_utils import process_text
 
 import pickle
 import sys
