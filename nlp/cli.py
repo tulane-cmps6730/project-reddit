@@ -101,7 +101,7 @@ def train_nb():
     vec_1 = CountVectorizer(tokenizer=process_text)
     X = vec_1.fit_transform(train_df["Comment"])
     y = train_df["Result_Bin"]
-    lr.fit(X,y)
+    bnb.fit(X,y)
     y_pred = lr.predict(val_df["Stemmed"])
     y_val = val_df["Result_Bin"]
     # Calculate F1
@@ -140,7 +140,7 @@ def train_lr():
     vec_2 = CountVectorizer(tokenizer=process_text)
     X = vec_2.fit_transform(train_df["Comment"])
     y = train_df["Result_Bin"]
-    bnb.fit(X,y)
+    lr.fit(X,y)
     y_pred = BNB.predict(val_df["Stemmed"])
     y_val = val_df["Result_Bin"]
     # Calculate F1
