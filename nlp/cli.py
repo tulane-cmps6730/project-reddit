@@ -149,10 +149,15 @@ def train_lr():
 
 @main.command('train_cnn')
 def train_cnn():
+    '''
+    Get CNN Model
+    '''
     train_df = pd.read_csv(config.get('data', 'file1'))
     val_df = pd.read_csv(config.get('data', 'file2'))
     test_df = pd.read_csv(config.get('data', 'file3'))
-    model = load_model('best_cnn_model.h5')
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    model_path = os.path.join(dir_path, 'best_cnn_model.h5')
+    model = load_model(model_path)
     
     tokenizer = Tokenizer()
     
