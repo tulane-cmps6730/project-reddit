@@ -178,7 +178,7 @@ def train_cnn():
     y_train = label_encoder.fit_transform(train_df["Result_Bin"])
     y_val = label_encoder.fit_transform(val_df["Result_Bin"])
 
-    predictions = best_model_cnn.predict(X_val)
+    predictions = model.predict(X_val)
     predictions = (predictions > 0.5).astype(int) 
     
     f1 = f1_score(y_val, predictions)
