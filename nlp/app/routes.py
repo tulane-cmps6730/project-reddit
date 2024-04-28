@@ -6,10 +6,11 @@ from .. import clf_path
 import pickle
 import sys
 
-clf, vec = pickle.load(open(clf_path, 'rb'))
-print('read clf %s' % str(clf))
-print('read vec %s' % str(vec))
-labels = ['liberal', 'conservative']
+bnb, vec_1, process_text = pickle.load(open(clf_path, 'rb'))
+print('read bnb %s' % str(bnb))
+print('read vec %s' % str(vec_1))
+print('read process_text %s' % str(process_text))
+labels = ['loss', 'win']
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
@@ -18,9 +19,10 @@ def index():
 	result = None
 	if form.validate_on_submit():
 		input_field = form.input_field.data
+        updated_field = process_text([input_field])
 		X = vec.transform([input_field])
-		pred = clf.predict(X)[0]
-		proba = clf.predict_proba(X)[0].max()
+		pred = bnb.predict(X)[0]
+		proba = bnb.predict_proba(X)[0].max()
 		# flash(input_field)
 		return render_template('myform.html', title='', form=form, 
 								prediction=labels[pred], confidence='%.2f' % proba)

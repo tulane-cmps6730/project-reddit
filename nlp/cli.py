@@ -16,7 +16,7 @@ from sklearn.naive_bayes import BernoulliNB
 from sklearn.linear_model import LogisticRegression
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
-from . import config, config_path
+from . import bnb_path, lr_path, config, config_path
 
 @click.group()
 def main(args=None):
@@ -113,6 +113,7 @@ def train_nb():
     y_pred = bnb.predict(X_val)
     f1 = f1_score(y_val, y_pred)
     print("F1 Score:", round(f1, 3))
+    pickle.dump((bnb, vec_1, process_text), open(bnb_path, 'wb'))
 
 @main.command('train_lr')
 def train_lr():
