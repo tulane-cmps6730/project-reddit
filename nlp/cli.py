@@ -70,7 +70,7 @@ def data2df():
 
 
 def process_text(document):
-# Tokenize the document
+
     tokens = document.split()
     tokens = [re.sub(r'^\W+|\W+$', '', token) for token in tokens]
     tokens = [token.lower() for token in tokens]
