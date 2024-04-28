@@ -6,6 +6,7 @@ import glob
 import pickle
 import sys
 
+import os
 import numpy as np
 import pandas as pd
 import re
