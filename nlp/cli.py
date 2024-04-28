@@ -102,7 +102,7 @@ def train_nb():
     X = vec_1.fit_transform(train_df["Comment"])
     y = train_df["Result_Bin"]
     bnb.fit(X,y)
-    y_pred = lr.predict(val_df["Stemmed"])
+    y_pred = nb.predict(val_df["Stemmed"])
     y_val = val_df["Result_Bin"]
     # Calculate F1
     f1 = f1_score(y_val, y_pred)
@@ -141,7 +141,7 @@ def train_lr():
     X = vec_2.fit_transform(train_df["Comment"])
     y = train_df["Result_Bin"]
     lr.fit(X,y)
-    y_pred = BNB.predict(val_df["Stemmed"])
+    y_pred = lr.predict(val_df["Stemmed"])
     y_val = val_df["Result_Bin"]
     # Calculate F1
     f1 = f1_score(y_val, y_pred)
