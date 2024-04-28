@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect, session
 from . import app
 from .forms import MyForm
-from .. import clf_path
+from .. import bnb_path
 
 import pickle
 import sys
@@ -20,7 +20,7 @@ def index():
 	if form.validate_on_submit():
 		input_field = form.input_field.data
         updated_field = process_text(input_field)
-		X = vec.transform([input_field])
+		X = vec_1.transform([input_field])
 		pred = bnb.predict(X)[0]
 		proba = bnb.predict_proba(X)[0].max()
 		# flash(input_field)
