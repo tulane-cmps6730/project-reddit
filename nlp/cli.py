@@ -16,7 +16,7 @@ from sklearn.naive_bayes import BernoulliNB
 from sklearn.linear_model import LogisticRegression
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
-from . import clf_path, config, config_path
+from . import config, config_path
 
 @click.group()
 def main(args=None):
