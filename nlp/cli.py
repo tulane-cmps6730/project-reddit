@@ -113,7 +113,7 @@ def train_nb():
     y_pred = bnb.predict(X_val)
     f1 = f1_score(y_val, y_pred)
     print("F1 Score:", round(f1, 3))
-    pickle.dump((bnb, vec_1, process_text), open(bnb_path, 'wb'))
+    pickle.dump((bnb, vec_1), open(bnb_path, 'wb'))
 
 @main.command('train_lr')
 def train_lr():
