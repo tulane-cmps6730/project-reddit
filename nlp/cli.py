@@ -68,8 +68,8 @@ def data2df():
 
 
 
-@main.command('train_bn')
-def train_nb(train_df, val_df):
+@main.command('train_nb')
+def train_nb():
     """
     Naive Bayes Model (Do Third)
     """
@@ -107,7 +107,7 @@ def train_nb(train_df, val_df):
     print("F1 Score:", round(f1,3))
 
 @main.command('train_lr')
-def train_lr(train_df, val_df):
+def train_lr():
     """
     Logistic Regression Model (Do Fourth)
     """
