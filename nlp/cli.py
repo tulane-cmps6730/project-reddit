@@ -96,10 +96,12 @@ def train_nb():
         processed_text = ' '.join(stemmed_tokens)
         
         return processed_text
-    
-    vec_1 = CountVectorizer(tokenizer=process_text)
+
+    train_df["Comment"] = train_df["Comment"].apply(process_text)
+    vec_1 = CountVectorizer()
     X_train = vec_1.fit_transform(train_df["Comment"])
     y_train = train_df["Result_Bin"]
+    val_df["Comment"] = val_df["Comment"].apply(process_text
     X_val = vec_1.transform(val_df["Comment"]) 
     y_val = val_df["Result_Bin"]
 
@@ -139,15 +141,17 @@ def train_lr():
         processed_text = ' '.join(stemmed_tokens)
         
         return processed_text
-        
-    vec_1 = CountVectorizer(tokenizer=process_text)
+
+    train_df["Comment"] = train_df["Comment"].apply(process_text)
+    vec_1 = CountVectorizer()
     X_train = vec_1.fit_transform(train_df["Comment"])
     y_train = train_df["Result_Bin"]
+    val_df["Comment"] = val_df["Comment"].apply(process_text)
     X_val = vec_1.transform(val_df["Comment"]) 
     y_val = val_df["Result_Bin"]
 
     # Training the model
-    lr = LogisticRegression()
+    lr = LogisticRegression(max_iter = 1000)
     lr.fit(X_train, y_train)
 
     # Predicting and evaluating

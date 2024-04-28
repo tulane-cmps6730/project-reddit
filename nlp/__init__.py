@@ -40,7 +40,10 @@ except:
 # main config file.
 config_path = nlp_path + 'nlp.cfg'
 # classifier
-clf_path = nlp_path + 'clf.pkl'
+bnb_path = nlp_path + 'bnb.pkl'
+lr_path = nlp_path + 'lr.pkl'
+cnn_path = nlp_path + 'cnn.pkl'
+bert_path = nlp_path + 'bert.pkl'
 
 # write default config if not present.
 if not os.path.isfile(config_path):
