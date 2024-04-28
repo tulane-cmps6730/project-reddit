@@ -97,16 +97,20 @@ def train_nb():
         
         return processed_text
     
-    bnb = BernoulliNB()
     vec_1 = CountVectorizer(tokenizer=process_text)
-    X = vec_1.fit_transform(train_df["Comment"])
-    y = train_df["Result_Bin"]
-    bnb.fit(X,y)
-    y_pred = bnb.predict(val_df["Stemmed"])
+    X_train = vec_1.fit_transform(train_df["Comment"])
+    y_train = train_df["Result_Bin"]
+    X_val = vec_1.transform(val_df["Comment"]) 
     y_val = val_df["Result_Bin"]
-    # Calculate F1
+
+    # Training the model
+    bnb = BernoulliNB()
+    bnb.fit(X_train, y_train)
+
+    # Predicting and evaluating
+    y_pred = bnb.predict(X_val)
     f1 = f1_score(y_val, y_pred)
-    print("F1 Score:", round(f1,3))
+    print("F1 Score:", round(f1, 3))
 
 @main.command('train_lr')
 def train_lr():
@@ -136,16 +140,20 @@ def train_lr():
         
         return processed_text
         
-    lr = LogisticRegression()
-    vec_2 = CountVectorizer(tokenizer=process_text)
-    X = vec_2.fit_transform(train_df["Comment"])
-    y = train_df["Result_Bin"]
-    lr.fit(X,y)
-    y_pred = lr.predict(val_df["Stemmed"])
+    vec_1 = CountVectorizer(tokenizer=process_text)
+    X_train = vec_1.fit_transform(train_df["Comment"])
+    y_train = train_df["Result_Bin"]
+    X_val = vec_1.transform(val_df["Comment"]) 
     y_val = val_df["Result_Bin"]
-    # Calculate F1
+
+    # Training the model
+    lr = LogisticRegression()
+    lr.fit(X_train, y_train)
+
+    # Predicting and evaluating
+    y_pred = lr.predict(X_val)
     f1 = f1_score(y_val, y_pred)
-    print("F1 Score:", round(f1,3))
+    print("F1 Score:", round(f1, 3))
 
 
 if __name__ == "__main__":
