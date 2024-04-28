@@ -24,7 +24,7 @@ def main(args=None):
     return 0
 
 @main.command('web')
-@click.option('-p', '--port', required=False, default=5000, show_default=True, help='port of web server')
+@click.option('-p', '--port', required=False, default=6331, show_default=True, help='port of web server')
 def web(port):
     """
     Launch the flask web app.
