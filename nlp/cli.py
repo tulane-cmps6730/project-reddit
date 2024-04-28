@@ -78,22 +78,22 @@ def train_nb(train_df, val_df):
 
     def process_text(document):
     # Tokenize the document
-    tokens = document.split()
-    tokens = [re.sub(r'^\W+|\W+$', '', token) for token in tokens]
-    tokens = [token.lower() for token in tokens]
-    
-    # Remove stopwords
-    stop_words = set(stopwords.words('english'))
-    tokens = [token for token in tokens if token not in stop_words]
-    
-    # Stem the tokens
-    stemmer = PorterStemmer()
-    stemmed_tokens = [stemmer.stem(token) for token in tokens]
-    
-    # Join the tokens back into a string
-    processed_text = ' '.join(stemmed_tokens)
-    
-        return processed_text
+        tokens = document.split()
+        tokens = [re.sub(r'^\W+|\W+$', '', token) for token in tokens]
+        tokens = [token.lower() for token in tokens]
+        
+        # Remove stopwords
+        stop_words = set(stopwords.words('english'))
+        tokens = [token for token in tokens if token not in stop_words]
+        
+        # Stem the tokens
+        stemmer = PorterStemmer()
+        stemmed_tokens = [stemmer.stem(token) for token in tokens]
+        
+        # Join the tokens back into a string
+        processed_text = ' '.join(stemmed_tokens)
+        
+            return processed_text
     
     bnb = BernoulliNB()
     vec_1 = CountVectorizer(tokenizer=process_text)
