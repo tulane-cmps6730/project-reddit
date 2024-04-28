@@ -4,6 +4,8 @@
 import re
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 def process_text(document):
     # Tokenize the document
@@ -22,3 +24,16 @@ def process_text(document):
     # Return the processed text
     return ' '.join(stemmed_tokens)
 
+def basic(document):
+    # YOUR CODE HERE
+    document = document.split()
+    
+    for item in document:
+        document = [re.sub(r'^\W+|\W+$', "", item) for item in document]
+            
+    document = [item.lower() for item in document]
+    
+    document = " ".join(document)
+
+    
+    return document

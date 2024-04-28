@@ -24,7 +24,7 @@ from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from sklearn.preprocessing import LabelEncoder
 
-from . import bnb_path, lr_path, config, config_path
+from . import bnb_path, lr_path, cnn_path, lr_path, config, config_path
 
 @click.group()
 def main(args=None):
@@ -148,7 +148,7 @@ def train_lr():
     y_pred = lr.predict(X_val)
     f1 = f1_score(y_val, y_pred)
     print("F1 Score:", round(f1, 3))
-
+    pickle.dump((lr, vec_1), open(lr_path, 'wb'))
 
 @main.command('train_cnn')
 def train_cnn():
