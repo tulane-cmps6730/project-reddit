@@ -101,7 +101,7 @@ def train_nb():
     vec_1 = CountVectorizer()
     X_train = vec_1.fit_transform(train_df["Comment"])
     y_train = train_df["Result_Bin"]
-    val_df["Comment"] = val_df["Comment"].apply(process_text
+    val_df["Comment"] = val_df["Comment"].apply(process_text)
     X_val = vec_1.transform(val_df["Comment"]) 
     y_val = val_df["Result_Bin"]
 
