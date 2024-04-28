@@ -19,7 +19,7 @@ from nltk.stem import PorterStemmer
 import tensorflow as tf
 import keras as keras
 from tensorflow.keras.models import load_model
-from keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.text import Tokenizer
 
 from . import bnb_path, lr_path, config, config_path
 
