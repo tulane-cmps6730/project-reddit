@@ -16,6 +16,7 @@ from sklearn.naive_bayes import BernoulliNB
 from sklearn.linear_model import LogisticRegression
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
+from tensorflow.keras.models import load_model
 from . import bnb_path, lr_path, config, config_path
 
 @click.group()
@@ -142,5 +143,13 @@ def train_lr():
     print("F1 Score:", round(f1, 3))
 
 
+@main.command('train_cnn')
+def train_cnn():
+    train_df = pd.read_csv(config.get('data', 'file1'))
+    val_df = pd.read_csv(config.get('data', 'file2'))
+    test_df = pd.read_csv(config.get('data', 'file3'))
+    model = load_model('best_cnn_model.h5')
+
+    
 if __name__ == "__main__":
     sys.exit(main())
