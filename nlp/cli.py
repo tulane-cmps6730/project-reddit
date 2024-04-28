@@ -96,7 +96,7 @@ def process_text(document):
     
     return processed_text
 
-def process_text_cnn()
+
 @main.command('train_nb')
 def train_nb():
     """
@@ -189,6 +189,9 @@ def train_cnn():
     # Calculate recall
     recall = recall_score(y_val, predictions)
     print("Recall:", round(recall, 3))
+
+    pickle.dump((cnn), open(cnn_path, 'wb'))
+
 
     
 if __name__ == "__main__":
