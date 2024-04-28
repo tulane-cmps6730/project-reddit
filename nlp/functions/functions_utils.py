@@ -24,7 +24,7 @@ def process_text(document):
     # Return the processed text
     return ' '.join(stemmed_tokens)
 
-def basic(document):
+def basic_process(document):
     # YOUR CODE HERE
     document = document.split()
     
@@ -37,3 +37,40 @@ def basic(document):
 
     
     return document
+
+def cnn_process(document):
+    
+    tokenizer = Tokenizer()
+    tokenizer.fit_on_texts(document)
+    
+    document = tokenizer.texts_to_sequences(document)
+    
+    vocab_size = len(tokenizer.word_index) + 1
+    
+    maxlen = 100
+    document = pad_sequences(document, padding='post', maxlen=maxlen)
+    
+    return document
+
+def bert_process(document):
+    tokenizer = DistilBertTokenizer.from_pretrained('distilbert-base-uncased')
+    inputs = tokenizer.encode_plus(
+        comment,
+        add_special_tokens=True,
+        max_length=128,
+        padding='max_length',
+        return_attention_mask=True,
+        truncation=True,
+        return_tensors='tf'
+    )
+
+    input_ids = inputs['input_ids']
+    attention_mask = inputs['attention_mask']
+
+    return input_ids, attention_mask
+
+
+
+
+
+    

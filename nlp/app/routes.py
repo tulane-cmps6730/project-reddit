@@ -1,13 +1,17 @@
 from flask import render_template, flash, redirect, session
 from . import app
 from .forms import MyForm
+from .model_loader import load_models
 from .. import bnb_path
 from ..functions.functions_utils import process_text
 
 import pickle
 import sys
 
-bnb, vec_1 = pickle.load(open(bnb_path, 'rb'))
+bnb, bnb_vectorizer = pickle.load(open(bnb_path, 'rb'))
+lr, lr_vectorizer = pickle.load(open(lr_path, 'rb'))
+cnn = pickle.load(open(cnn_path, 'rb'))
+ber = pickle.load(open(lr_path, 'rb'))
 print('read bnb %s' % str(bnb))
 print('read vec %s' % str(vec_1))
 labels = ['loss', 'win']
