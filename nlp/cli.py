@@ -33,7 +33,7 @@ def web(port):
 @main.command('dl-data')
 def dl_data():
     """
-    Get data. (Do First)
+    Get data (Do First)
     """
 
     print("Configuration file path:", config_path)
@@ -49,7 +49,7 @@ def dl_data():
 @main.command('data2df')
 def data2df():
     """
-    Get Dataframes. (Do Second)
+    Get Dataframes (Do Second)
     """
     train_df = pd.read_csv(config.get('data', 'file1'))
     val_df = pd.read_csv(config.get('data', 'file2'))
@@ -66,7 +66,17 @@ def data2df():
     # Return the DataFrames as separate variables
     return train_df, val_df, test_df
 
-def process_text(document):
+
+
+@main.command('train_bn')
+def train_nb(train_df, val_df):
+    """
+    Naive Bayes Model (Do Third)
+    """
+    train_df = pd.read_csv(config.get('data', 'file1'))
+    val_df = pd.read_csv(config.get('data', 'file2'))
+
+    def process_text(document):
     # Tokenize the document
     tokens = document.split()
     tokens = [re.sub(r'^\W+|\W+$', '', token) for token in tokens]
@@ -83,13 +93,8 @@ def process_text(document):
     # Join the tokens back into a string
     processed_text = ' '.join(stemmed_tokens)
     
-    return processed_text
-
-@main.command('train_bn')
-def train_nb(train_df, val_df):
-    """
-    Naive Bayes Model (Do Third)
-    """
+        return processed_text
+    
     bnb = BernoulliNB()
     vec_1 = CountVectorizer(tokenizer=process_text)
     X = vec_1.fit_transform(train_df["Comment"])
@@ -106,6 +111,28 @@ def train_lr(train_df, val_df):
     """
     Logistic Regression Model (Do Fourth)
     """
+
+    train_df = pd.read_csv(config.get('data', 'file1'))
+    val_df = pd.read_csv(config.get('data', 'file2'))
+
+    def process_text(document):
+    # Tokenize the document
+    tokens = document.split()
+    tokens = [re.sub(r'^\W+|\W+$', '', token) for token in tokens]
+    tokens = [token.lower() for token in tokens]
+    
+    # Remove stopwords
+    stop_words = set(stopwords.words('english'))
+    tokens = [token for token in tokens if token not in stop_words]
+    
+    # Stem the tokens
+    stemmer = PorterStemmer()
+    stemmed_tokens = [stemmer.stem(token) for token in tokens]
+    
+    # Join the tokens back into a string
+    processed_text = ' '.join(stemmed_tokens)
+    
+        return processed_text
     lr = LogisticRegression()
     vec_2 = CountVectorizer(tokenizer=process_text)
     X = vec_2.fit_transform(train_df["Comment"])
