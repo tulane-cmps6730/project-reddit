@@ -6,7 +6,7 @@ from .. import bnb_path
 import pickle
 import sys
 
-bnb, vec_1, process_text = pickle.load(open(clf_path, 'rb'))
+bnb, vec_1, process_text = pickle.load(open(bnb_path, 'rb'))
 print('read bnb %s' % str(bnb))
 print('read vec %s' % str(vec_1))
 print('read process_text %s' % str(process_text))
