@@ -19,7 +19,7 @@ def index():
 	result = None
 	if form.validate_on_submit():
 		input_field = form.input_field.data
-        updated_field = process_text([input_field])
+        updated_field = process_text(input_field)
 		X = vec.transform([input_field])
 		pred = bnb.predict(X)[0]
 		proba = bnb.predict_proba(X)[0].max()
