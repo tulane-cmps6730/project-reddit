@@ -93,7 +93,7 @@ def train_nb(train_df, val_df):
         # Join the tokens back into a string
         processed_text = ' '.join(stemmed_tokens)
         
-            return processed_text
+        return processed_text
     
     bnb = BernoulliNB()
     vec_1 = CountVectorizer(tokenizer=process_text)
@@ -132,7 +132,7 @@ def train_lr(train_df, val_df):
         # Join the tokens back into a string
         processed_text = ' '.join(stemmed_tokens)
         
-            return processed_text
+        return processed_text
         
     lr = LogisticRegression()
     vec_2 = CountVectorizer(tokenizer=process_text)
