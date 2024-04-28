@@ -23,5 +23,4 @@ def index():
         proba = bnb.predict_proba(X)[0].max()
         return render_template('myform.html', title='', form=form, prediction=labels[pred], confidence='%.2f' % (proba * 100))
     return render_template('myform.html', title='', form=form, prediction=None, confidence=None)
-		#return redirect('/index')
-	return render_template('myform.html', title='', form=form, prediction=None, confidence=None)
+	
