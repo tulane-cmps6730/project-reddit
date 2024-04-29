@@ -27,9 +27,9 @@ def process_text(document):
 
 
 tokenizer = Tokenizer()
-train_df = pd.read_csv("../data/train.csv")
-val_df = pd.read_csv("../data/validation.csv")
-test_df = pd.read_csv("../data/test.csv")
+train_df = pd.read_csv("../../data/train.csv")
+val_df = pd.read_csv("../../data/validation.csv")
+test_df = pd.read_csv("../../data/test.csv")
 
 def basic_process(document):
     # Tokenize the document
