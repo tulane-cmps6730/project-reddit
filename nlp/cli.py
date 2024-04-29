@@ -175,7 +175,7 @@ def train_cnn():
         print(f"Error loading model or tokenizer: {e}")
         
     def process_with_tokenizer(text):
-        return cnn_process(text, tokenizer, maxlen=100)
+        return cnn_process(text, tokenizer, maxlen=87)
 
     
 
