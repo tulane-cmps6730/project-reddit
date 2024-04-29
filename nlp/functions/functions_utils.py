@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import re
+import pandas as pd
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from tensorflow.keras.preprocessing.text import Tokenizer
