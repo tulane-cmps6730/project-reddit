@@ -33,7 +33,7 @@ def index():
             model = lr
             text = process_text(input_field)
             text = lr_vectorizer.transform([text])
-            pred_labels = lr.predict(text)
+			pred_labels = lr.predict(text)
 			probas = lr.predict_proba(text)
 			pred = pred_labels[0]
 			proba = probas[0, pred]
