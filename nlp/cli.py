@@ -188,7 +188,7 @@ def train_cnn():
     recall = recall_score(y_val, predictions)
     print("Recall:", round(recall, 3))
         
-    pickle.dump((model, tokenizer), open(cnn_path, 'wb'))
+    pickle.dump((model), open(cnn_path, 'wb'))
     
 
 
