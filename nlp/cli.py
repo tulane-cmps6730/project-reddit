@@ -193,7 +193,7 @@ def train_cnn():
         
     pickle.dump(model, open(cnn_path, 'wb'))
     
-@main.command('train_cnn')
+@main.command('train_bert')
 def train_bert():
     '''
     Get BERT
@@ -201,13 +201,14 @@ def train_bert():
     tokenizer = DistilBertTokenizerFast.from_pretrained('distilbert-base-uncased')
     
     def tokenize(sentences, max_length=100, padding='max_length'):
-    return tokenizer(
-        sentences,
-        truncation=True,
-        padding=padding,
-        max_length=max_length,
-        return_tensors="tf" 
-    )
+        return tokenizer(
+            sentences,
+            truncation=True,
+            padding=padding,
+            max_length=max_length,
+            return_tensors="tf" 
+        )
+        
     bert_x_train = train_df["Comment_Adj"].tolist()
     bert_y_train = train_df["Result_Bin"].tolist()
     bert_x_val = val_df["Comment_Adj"].tolist()
