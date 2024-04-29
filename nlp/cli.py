@@ -189,7 +189,7 @@ def train_bert():
     '''
 
     model = AutoModelForSequenceClassification.from_pretrained('prajjwal1/bert-mini', num_labels=2)
-    model.load_state_dict(torch.load('bert_model.pth'))
+    model.load_state_dict(torch.load('/Users/jackiecollopy/Downloads/project-reddit/notebooks/bert_model.pth'))
     tokenizer = BertTokenizerFast.from_pretrained('prajjwal1/bert-mini')
 
     def tokenize(data, max_length=87):
