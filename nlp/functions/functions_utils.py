@@ -35,7 +35,7 @@ def basic_process(document):
 
 def cnn_process(document, tokenizer, maxlen=100):
     # Process the document text first
-    processed_document = process_text(document)
+    processed_document = basic_process(document)
     # Convert texts to sequences
     sequences = tokenizer.texts_to_sequences([processed_document])
     # Pad sequences
