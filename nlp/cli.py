@@ -191,9 +191,8 @@ def train_bert():
     val_df = pd.read_csv(config.get('data', 'file2'))
     test_df = pd.read_csv(config.get('data', 'file3'))
 
-
-    model = AutoModelForSequenceClassification.from_pretrained('prajjwal1/bert-mini', num_labels=2)
-    model.load_state_dict(torch.load('/Users/jackiecollopy/Downloads/project-reddit/notebooks/bert_model.pth'))
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model = AutoModelForSequenceClassification.from_pretrained('/Users/jackiecollopy/Downloads/project-reddit/notebooks/bert.pth')
     tokenizer = BertTokenizerFast.from_pretrained('prajjwal1/bert-mini')
 
     def tokenize(data, max_length=87):
