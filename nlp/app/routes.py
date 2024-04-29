@@ -13,7 +13,7 @@ bnb, bnb_vectorizer = pickle.load(open(bnb_path, 'rb'))
 lr, lr_vectorizer = pickle.load(open(lr_path, 'rb'))
 cnn = pickle.load(open(lr_path, 'rb'))
 
-
+prediction = None
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 def index():
