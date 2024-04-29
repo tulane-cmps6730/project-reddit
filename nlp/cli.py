@@ -206,6 +206,10 @@ def train_bert():
     import tensorflow as tf
     from tqdm import tqdm
     print(tf.__version__)
+
+    !pip install -U tf_keras # Keras 2
+    import os
+    os.environ["TF_USE_LEGACY_KERAS"] = "1"
     
     train_df = pd.read_csv(config.get('data', 'file1'))
     val_df = pd.read_csv(config.get('data', 'file2'))
