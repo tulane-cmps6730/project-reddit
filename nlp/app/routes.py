@@ -40,9 +40,11 @@ def index():
             proba = probas[0, pred]
         elif model_choice == 'cnn':
             # For CNN, assuming preprocessing is handled differently or is built-in
+            model_path = '/Users/jackiecollopy/Downloads/project-reddit/nlp/cnn_model.h5'
+            model = load_model(model_path, compile=False)
             text = basic_process(input_field)
             text = cnn_process(text)
-            predictions_proba = cnn.predict(text)
+            predictions_proba = model.predict(text)
             pred = (predictions_proba > 0.5).astype(int)
             proba = predictions_proba[0]
         elif model_choice == 'bert':
