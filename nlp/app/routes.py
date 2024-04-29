@@ -44,4 +44,4 @@ def index():
 
         return render_template('myform.html', title='', form=form, 
                                prediction=labels[pred], confidence='%.2f' % (proba * 100))
-    #return render_template('myform.html', title='', form=form, prediction=None, confidence=None)
+    return render_template('myform.html', title='', form=form, prediction=None, confidence=None)
