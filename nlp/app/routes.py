@@ -1,7 +1,6 @@
 from flask import render_template, flash, redirect, session
 from . import app
 from .forms import MyForm
-
 from .. import bnb_path, lr_path, cnn_path
 from ..functions.functions_utils import process_text, basic_process, cnn_process
 
@@ -25,13 +24,13 @@ def index():
         if model_choice == 'bnb':
             model = bnb
             text = process_text(input_field)
-            text = bnb_vectorizer(text)
+            text = bnb_vectorizer.transform([text])
             pred = bnb.predict([text])
             proba = bnb.predict_proba([text])[:, 1]
         elif model_choice == 'lr':
             model = lr
             text = process_text(input_field)
-            text = lr_vectorizer(text)
+            text = lr_vectorizer.transform([text])
             pred = lr.predict([text])
             proba = lr.predict_proba([text])[:, 1]
         elif model_choice == 'cnn':
