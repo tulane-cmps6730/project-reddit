@@ -20,8 +20,8 @@ from nltk.stem import PorterStemmer
 import tensorflow as tf
 import keras as keras
 from tensorflow.keras.models import load_model
-#from tensorflow.keras.preprocessing.text import Tokenizer
-#from tensorflow.keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 from sklearn.preprocessing import LabelEncoder
 
 from nlp.functions.functions_utils import process_text, cnn_process
