@@ -13,7 +13,7 @@ bnb, bnb_vectorizer = pickle.load(open(bnb_path, 'rb'))
 lr, lr_vectorizer = pickle.load(open(lr_path, 'rb'))
 cnn = pickle.load(open(lr_path, 'rb'))
 
-prediction = None
+
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 def index():
@@ -21,7 +21,7 @@ def index():
     if form.validate_on_submit():
         input_field = form.input_field.data
         model_choice = form.model_choice.data
-        
+        prediction = None
         if model_choice == 'bnb':
             model = bnb
             text = process_text(input_field)
@@ -40,6 +40,7 @@ def index():
             text = lr_vectorizer.transform([text])
             probas = lr.predict_proba(text)
             positive_proba = probas[:, 1]
+            prediction = None
             if positive_proba > 0.5:
                 prediction == "WIN"
                 proba = positive_proba
@@ -54,6 +55,7 @@ def index():
             text = cnn_process(text)
             probas = model.predict(text)
             positive_proba = probas[:, 1]
+            prediction = None
             if positive_proba > 0.5:
                 prediction == "WIN"
                 proba = positive_proba
