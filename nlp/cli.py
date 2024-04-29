@@ -184,7 +184,7 @@ def train_bert():
     Get BERT
     '''
     
-    file_url = 
+     
 
     gauth = GoogleAuth()
     gauth.LocalWebserverAuth()  # Follow the authentication steps
