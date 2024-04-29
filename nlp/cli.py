@@ -106,11 +106,11 @@ def train_nb():
     val_df = pd.read_csv(config.get('data', 'file2'))
 
     train_df["Comment"] = train_df["Comment"].apply(process_text)
-    vec_1 = CountVectorizer()
-    X_train = vec_1.fit_transform(train_df["Comment"])
+    bnb_vectorizer = CountVectorizer()
+    X_train = bnb_vectorizer.fit_transform(train_df["Comment"])
     y_train = train_df["Result_Bin"]
     val_df["Comment"] = val_df["Comment"].apply(process_text)
-    X_val = vec_1.transform(val_df["Comment"]) 
+    X_val = bnb_vectorizer.transform(val_df["Comment"]) 
     y_val = val_df["Result_Bin"]
 
     # Training the model
@@ -121,7 +121,7 @@ def train_nb():
     y_pred = bnb.predict(X_val)
     f1 = f1_score(y_val, y_pred)
     print("F1 Score:", round(f1, 3))
-    pickle.dump((bnb, vec_1), open(bnb_path, 'wb'))
+    pickle.dump((bnb, bnb_vectorizer), open(bnb_path, 'wb'))
 
 @main.command('train_lr')
 def train_lr():
@@ -133,11 +133,11 @@ def train_lr():
     val_df = pd.read_csv(config.get('data', 'file2'))
 
     train_df["Comment"] = train_df["Comment"].apply(process_text)
-    vec_1 = CountVectorizer()
-    X_train = vec_1.fit_transform(train_df["Comment"])
+    lr_vectorizer = CountVectorizer()
+    X_train = lr_vectorizer.fit_transform(train_df["Comment"])
     y_train = train_df["Result_Bin"]
     val_df["Comment"] = val_df["Comment"].apply(process_text)
-    X_val = vec_1.transform(val_df["Comment"]) 
+    X_val = lr_vectorizer.transform(val_df["Comment"]) 
     y_val = val_df["Result_Bin"]
 
     # Training the model
@@ -148,7 +148,7 @@ def train_lr():
     y_pred = lr.predict(X_val)
     f1 = f1_score(y_val, y_pred)
     print("F1 Score:", round(f1, 3))
-    pickle.dump((lr, vec_1), open(lr_path, 'wb'))
+    pickle.dump((lr, lr_vectorizer), open(lr_path, 'wb'))
 
 @main.command('train_cnn')
 def train_cnn():

@@ -32,7 +32,7 @@ def index():
             model = lr
             text = process_text(input_field)
             text = lr_vectorizer(text)
-            pred = blr.predict([text])
+            pred = lr.predict([text])
             proba = lr.predict_proba([text])[:, 1]
         elif model_choice == 'cnn':
             # For CNN, assuming preprocessing is handled differently or is built-in
