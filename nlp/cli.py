@@ -177,21 +177,7 @@ def train_cnn():
     def process_with_tokenizer(text):
         return cnn_process(text, tokenizer, maxlen=100)
 
-    X_train = train_df["Comment_Adj"].apply(process_with_tokenizer)
-    X_val = val_df["Comment_Adj"].apply(process_with_tokenizer)
-    predictions = cnn.predict(X_val)
-    predictions = (predictions > 0.5).astype(int) 
     
-    f1 = f1_score(y_val, predictions)
-    print("F1 Score on Validation:", round(f1,3))
-    # Calculate Precision
-    precision = precision_score(y_val, predictions)
-    print("Precision on Validation:", round(precision, 3))
-    # Calculate recall
-    recall = recall_score(y_val, predictions)
-    print("Recall on Validation:", round(recall, 3))
-
-    pickle.dump((cnn,), open(cnn_path, 'wb'))
 
 
     
