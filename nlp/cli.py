@@ -187,6 +187,10 @@ def train_bert():
     '''
     Get BERT
     '''
+    train_df = pd.read_csv(config.get('data', 'file1'))
+    val_df = pd.read_csv(config.get('data', 'file2'))
+    test_df = pd.read_csv(config.get('data', 'file3'))
+
 
     model = AutoModelForSequenceClassification.from_pretrained('prajjwal1/bert-mini', num_labels=2)
     model.load_state_dict(torch.load('/Users/jackiecollopy/Downloads/project-reddit/notebooks/bert_model.pth'))
