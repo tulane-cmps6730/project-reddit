@@ -40,8 +40,7 @@ def index():
         elif model_choice == 'cnn':
             # For CNN, assuming preprocessing is handled differently or is built-in
             model = cnn
-            text = basic_process(input_field)
-            text = cnn_process(text)
+            text = cnn_process(input_field)
             proba = cnn.predict([text])
             pred = cnn.predict([text]).astype(int)
 

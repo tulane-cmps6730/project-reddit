@@ -24,8 +24,9 @@ def process_text(document):
     # Return the processed text
     return ' '.join(stemmed_tokens)
 
-def basic_process(document):
-    # YOUR CODE HERE
+
+def cnn_process(document):
+
     document = document.split()
     
     for item in document:
@@ -34,11 +35,6 @@ def basic_process(document):
     document = [item.lower() for item in document]
     
     document = " ".join(document)
-
-    
-    return document
-
-def cnn_process(document):
     
     tokenizer = Tokenizer()
     tokenizer.fit_on_texts(document)

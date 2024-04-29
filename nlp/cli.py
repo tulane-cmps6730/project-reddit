@@ -20,10 +20,11 @@ from nltk.stem import PorterStemmer
 import tensorflow as tf
 import keras as keras
 from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing.text import Tokenizer
-from tensorflow.keras.preprocessing.sequence import pad_sequences
+#from tensorflow.keras.preprocessing.text import Tokenizer
+#from tensorflow.keras.preprocessing.sequence import pad_sequences
 from sklearn.preprocessing import LabelEncoder
 
+from functions.functions_utils import process_text, cnn_process
 from . import bnb_path, lr_path, cnn_path, lr_path, config, config_path
 
 @click.group()
@@ -160,35 +161,22 @@ def train_cnn():
     test_df = pd.read_csv(config.get('data', 'file3'))
     dir_path = os.path.dirname(os.path.realpath(__file__))
     model_path = os.path.join(dir_path, 'best_cnn_model.h5')
-    cnn = load_model(model_path)
+    cnn = load_model(model_path) # Model derived in Experiments-CNN.ipnyb file
     
-    tokenizer = Tokenizer()
+    X_train = train_df["Comment_Adj"].apply(cnn_process) # See functions_utils.py file
+    X_val = val_df["Comment_Adj"].apply(cnn_process) # See functions_utils.py file
     
-    tokenizer.fit_on_texts(train_df["Comment_Adj"])
-    tokenizer.fit_on_texts(val_df["Comment_Adj"])
-    X_train = tokenizer.texts_to_sequences(train_df["Comment_Adj"])
-    X_val = tokenizer.texts_to_sequences(val_df["Comment_Adj"])
-    
-    vocab_size = len(tokenizer.word_index) + 1
-    
-    maxlen = 100
-    X_train = pad_sequences(X_train, padding='post', maxlen=maxlen)
-    X_val = pad_sequences(X_val, padding='post', maxlen=maxlen)
-    label_encoder = LabelEncoder()
-    y_train = label_encoder.fit_transform(train_df["Result_Bin"])
-    y_val = label_encoder.fit_transform(val_df["Result_Bin"])
-
     predictions = cnn.predict(X_val)
     predictions = (predictions > 0.5).astype(int) 
     
     f1 = f1_score(y_val, predictions)
-    print("F1 Score:", round(f1,3))
+    print("F1 Score on Validation:", round(f1,3))
     # Calculate Precision
     precision = precision_score(y_val, predictions)
-    print("Precision:", round(precision, 3))
+    print("Precision on Validation:", round(precision, 3))
     # Calculate recall
     recall = recall_score(y_val, predictions)
-    print("Recall:", round(recall, 3))
+    print("Recall on Validation:", round(recall, 3))
 
     pickle.dump((cnn), open(cnn_path, 'wb'))
 
