@@ -28,6 +28,8 @@ from sklearn.preprocessing import LabelEncoder
 import torch
 from torch.utils.data import DataLoader, Dataset, RandomSampler, SequentialSampler
 from transformers import DistilBertTokenizerFast, DistilBertForSequenceClassification
+from pydrive.auth import GoogleAuth
+from pydrive.drive import GoogleDrive
 from nlp.functions.functions_utils import process_text, cnn_process, basic_process
 from . import bnb_path, lr_path, cnn_path, lr_path, config, config_path
 
@@ -182,16 +184,21 @@ def train_bert():
     Get BERT
     '''
     
-    file_url = 'https://drive.google.com/file/d/1K26N14tCziLm97ie7YeBBK8d_fz9oIg3/view?usp=sharing'
+    file_url = 
 
-    # Download the file using requests library
-    response = requests.get(file_url)
-
-    # Load the file into a buffer
-    buffer = io.BytesIO(response.content)
-
-    # Load the model from the buffer
-    model_state_dict = torch.load(buffer, map_location=torch.device('cpu'))
+    gauth = GoogleAuth()
+    gauth.LocalWebserverAuth()  # Follow the authentication steps
+    drive = GoogleDrive(gauth)
+    
+    # Replace 'file_id_here' with the file ID from the Google Drive link
+    file_id = 'https://drive.google.com/file/d/1K26N14tCziLm97ie7YeBBK8d_fz9oIg3/view?usp=sharing'
+    
+    # Download the file
+    downloaded_file = drive.CreateFile({'id': file_id})
+    downloaded_file.GetContentFile('bert_model.pth')
+    
+    # Load the model from the downloaded file
+    model_state_dict = torch.load('bert_model.pth', map_location=torch.device('cpu'))
     tokenizer = BertTokenizerFast.from_pretrained('prajjwal1/bert-mini')
 
     def tokenize(data, max_length=87):
