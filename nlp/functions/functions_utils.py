@@ -24,6 +24,12 @@ def process_text(document):
     # Return the processed text
     return ' '.join(stemmed_tokens)
 
+
+tokenizer = Tokenizer()
+train_df = pd.read_csv("../data/train.csv")
+val_df = pd.read_csv("../data/validation.csv")
+test_df = pd.read_csv("../data/test.csv")
+
 def basic_process(document):
     # Tokenize the document
     tokens = document.split()
@@ -33,13 +39,18 @@ def basic_process(document):
     processed_text = ' '.join(tokens)
     return processed_text
 
-def cnn_process(document, tokenizer, maxlen=100):
-    # Process the document text first
+def cnn_process(document):
+    
     processed_document = basic_process(document)
-    # Convert texts to sequences
+    tokenizer = Tokenizer()
+
+    texts = pd.concat([train_df["Comment_Adj"], val_df["Comment_Adj"], test_df["Comment_Adj"]])
+    tokenizer.fit_on_texts(texts)
+
+    all_sequences = tokenizer.texts_to_sequences(texts)
     sequences = tokenizer.texts_to_sequences([processed_document])
-    # Pad sequences
-    padded_sequences = pad_sequences(sequences, maxlen=maxlen, padding='post')
+    
+    padded_sequences = pad_sequences(sequences, maxlen=87, padding='post')
     return padded_sequences
 
 

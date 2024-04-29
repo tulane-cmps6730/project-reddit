@@ -11,8 +11,6 @@ bnb, bnb_vectorizer = pickle.load(open(bnb_path, 'rb'))
 lr, lr_vectorizer = pickle.load(open(lr_path, 'rb'))
 model = pickle.load(open(lr_path, 'rb'))
 
-with open('/Users/jackiecollopy/Downloads/project-reddit/nlp/app/tokenizer.pkl', 'rb') as handle:
-    tokenizer = pickle.load(handle)
 
 labels = ['loss', 'win']
 
