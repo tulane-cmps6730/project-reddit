@@ -20,7 +20,7 @@ from nltk.stem import PorterStemmer
 import tensorflow as tf
 import keras as keras
 from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing.text import text
+from keras.preprocessing.text import text
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from sklearn.preprocessing import LabelEncoder
 
