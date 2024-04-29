@@ -162,12 +162,13 @@ def train_cnn():
     dir_path = os.path.dirname(os.path.realpath(__file__))
     model_path = os.path.join(dir_path, 'cnn_model.h5')
     tokenizer_path = os.path.join(dir_path, 'tokenizer.pickle')
-    cnn = load_model(model_path) # Model derived in Experiments-CNN.ipynb file
-
-
-    with open(tokenizer_path, 'rb') as handle:
-        tokenizer = pickle.load(handle)
-
+    try:
+        cnn = load_model(model_path)
+        with open(tokenizer_path, 'rb') as handle:
+            tokenizer = pickle.load(handle)
+    except Exception as e:
+        print(f"Error loading model or tokenizer: {e}")
+        return
     X_train = train_df["Comment_Adj"].apply(cnn_process) # See functions_utils.py file
     X_val = val_df["Comment_Adj"].apply(cnn_process) # See functions_utils.py file
     
