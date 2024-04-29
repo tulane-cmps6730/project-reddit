@@ -2,8 +2,8 @@ from flask import render_template, flash, redirect, session
 from . import app
 from .forms import MyForm
 from .model_loader import load_models
-from .. import bnb_path
-from ..functions.functions_utils import process_text
+from .. import bnb_path, lr_path, cnn_path
+from ..functions.functions_utils import process_text, basic_process, cnn_process
 
 import pickle
 import sys
@@ -11,9 +11,7 @@ import sys
 bnb, bnb_vectorizer = pickle.load(open(bnb_path, 'rb'))
 lr, lr_vectorizer = pickle.load(open(lr_path, 'rb'))
 cnn = pickle.load(open(cnn_path, 'rb'))
-ber = pickle.load(open(lr_path, 'rb'))
-print('read bnb %s' % str(bnb))
-print('read vec %s' % str(vec_1))
+
 labels = ['loss', 'win']
 
 @app.route('/', methods=['GET', 'POST'])
@@ -22,11 +20,28 @@ def index():
     form = MyForm()
     if form.validate_on_submit():
         input_field = form.input_field.data
-        updated_field = process_text(input_field)  # Assuming process_text function is defined globally
-        X = vec_1.transform([updated_field])
-        pred = bnb.predict(X)[0]
-        proba = bnb.predict_proba(X)[0].max()
-        # flash(input_field)
+        model_choice = form.model_choice.data
+        
+        if model_choice == 'bnb':
+            model = bnb
+            text = process_text(input_field)
+            text = bnb_vectorizer(text)
+            pred = bnb.predict([text])
+            proba = bnb.predict_proba([text])[:, 1]
+        elif model_choice == 'lr':
+            model = lr
+            text = process_text(input_field)
+            text = lr_vectorizer(text)
+            pred = blr.predict([text])
+            proba = lr.predict_proba([text])[:, 1]
+        elif model_choice == 'cnn':
+            # For CNN, assuming preprocessing is handled differently or is built-in
+            model = cnn
+            text = basic_process(input_field)
+            text = cnn_process(text)
+            proba = cnn.predict([text])
+            pred = cnn.predict([text]).astype(int)
+
         return render_template('myform.html', title='', form=form, 
                                prediction=labels[pred], confidence='%.2f' % (proba * 100))
-    return render_template('myform.html', title='', form=form, prediction=None, confidence=None)
+    #return render_template('myform.html', title='', form=form, prediction=None, confidence=None)
