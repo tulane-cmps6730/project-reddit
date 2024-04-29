@@ -1,5 +1,6 @@
 from flask import render_template, flash, redirect, session
 from tensorflow.keras.models import load_model
+import numpy as np
 from . import app
 from .forms import MyForm
 from .. import bnb_path, lr_path, cnn_path
@@ -46,7 +47,7 @@ def index():
             text = basic_process(input_field)
             text = cnn_process(text)
             predictions_proba = model.predict(text)
-            pred = (predictions_proba > 0.5).astype(int)
+            pred = np.argmax(predictions_proba)
             proba = predictions_proba[0]
         elif model_choice == 'bert':
             tokenizer = BertTokenizerFast.from_pretrained('prajjwal1/bert-mini')
