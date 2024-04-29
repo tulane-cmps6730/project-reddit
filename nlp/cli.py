@@ -26,10 +26,14 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.optimizers import Adam
 from sklearn.preprocessing import LabelEncoder
 import torch
+
 from torch.utils.data import DataLoader, Dataset, RandomSampler, SequentialSampler
-from transformers import DistilBertTokenizerFast, DistilBertForSequenceClassification
-from pydrive.auth import GoogleAuth
-from pydrive.drive import GoogleDrive
+from transformers import BertTokenizerFast
+from transformers import BertForSequenceClassification, AdamW  
+from transformers import AutoModelForSequenceClassification
+from torch.utils.data import DataLoader, Dataset, RandomSampler, SequentialSampler
+
+
 from nlp.functions.functions_utils import process_text, cnn_process, basic_process
 from . import bnb_path, lr_path, cnn_path, lr_path, config, config_path
 
