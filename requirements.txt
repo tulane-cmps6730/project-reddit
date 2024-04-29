@@ -245,3 +245,5 @@ torch>=2.2.1
 torchaudio>=2.2.1
 torchvision>=0.17.1
 jupyter
+keras>=3.0.0
+Keras-Preprocessing>=1.1.2

@@ -159,21 +159,12 @@ def train_cnn():
     test_df = pd.read_csv(config.get('data', 'file3'))
 
     model_path = '/Users/jackiecollopy/Downloads/project-reddit/nlp/cnn_model.h5'
-    tokenizer_path = '/Users/jackiecollopy/Downloads/project-reddit/nlp/tokenizer.pickle'  # Adjust path as needed
 
     try:
         
-#model = load_model(model_path, compile=False)
-        #print("Model loaded successfully.")
+    model = load_model(model_path, compile=False)
+        print("Model loaded successfully.")
         
-        with open(tokenizer_path, 'rb') as handle:
-            tokenizer = pickle.load(handle)
-        print("Tokenizer loaded successfully.")
-    except Exception as e:
-        print(f"Error loading model or tokenizer: {e}")
-        
-    def process_with_tokenizer(text):
-        return cnn_process(text, tokenizer, maxlen=87)
 
     
 
