@@ -160,7 +160,7 @@ def train_cnn():
     test_df = pd.read_csv(config.get('data', 'file3'))
     dir_path = os.path.dirname(os.path.realpath(__file__))
     model_path = os.path.join(dir_path, 'best_cnn_model.h5')
-    model = load_model(model_path)
+    cnn = load_model(model_path)
     
     tokenizer = Tokenizer()
     
@@ -178,7 +178,7 @@ def train_cnn():
     y_train = label_encoder.fit_transform(train_df["Result_Bin"])
     y_val = label_encoder.fit_transform(val_df["Result_Bin"])
 
-    predictions = model.predict(X_val)
+    predictions = cnn.predict(X_val)
     predictions = (predictions > 0.5).astype(int) 
     
     f1 = f1_score(y_val, predictions)
