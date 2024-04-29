@@ -9,7 +9,7 @@ import sys
 
 bnb, bnb_vectorizer = pickle.load(open(bnb_path, 'rb'))
 lr, lr_vectorizer = pickle.load(open(lr_path, 'rb'))
-model = pickle.load(open(lr_path, 'rb'))
+cnn = pickle.load(open(lr_path, 'rb'))
 
 
 labels = ['loss', 'win']
@@ -40,11 +40,11 @@ def index():
             proba = probas[0, pred]
         elif model_choice == 'cnn':
             # For CNN, assuming preprocessing is handled differently or is built-in
-            model = model
             text = basic_process(input_field)
             text = cnn_process(text)
-            proba = cnn.predict([text])
-            pred = cnn.predict([text]).astype(int)
+            predictions_proba = cnn.predict([text])
+            pred = (predictions_proba > 0.5).astype(int)[0]  # Assuming binary classification
+            proba = predictions_proba[0]
 
         return render_template('myform.html', title='', form=form, 
                                prediction=labels[pred], confidence='%.2f' % (proba * 100))
