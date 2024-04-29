@@ -25,14 +25,18 @@ def index():
             model = bnb
             text = process_text(input_field)
             text = bnb_vectorizer.transform([text])
-            pred = bnb.predict(text)
-            proba = bnb.predict_proba(text)[:, 1]
+            pred_labels = bnb.predict(text)
+			probas = bnb.predict_proba(text)  
+			pred = pred_labels[0]
+			proba = probas[0, pred]
         elif model_choice == 'lr':
             model = lr
             text = process_text(input_field)
             text = lr_vectorizer.transform([text])
-            pred = lr.predict(text)
-            proba = lr.predict_proba(text)[:, 1]
+            pred_labels = lr.predict(text)
+            probas = lr.predict_proba(text)
+			pred = pred_labels[0]
+			proba = probas[0, pred]
         elif model_choice == 'cnn':
             # For CNN, assuming preprocessing is handled differently or is built-in
             model = cnn
