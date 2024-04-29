@@ -242,9 +242,9 @@ def train_bert():
     precision = precision_score(true_labels, predictions)
     recall = recall_score(true_labels, predictions)
     f1 = f1_score(true_labels, predictions)
-    print("Precision on Test:", precision)
-    print("Recall on Test:", recall)
-    print("F1 Score on Test:", f1)
+    print("Precision on Test:", round(precision,3))
+    print("Recall on Test:", round(recall,3))
+    print("F1 Score on Test:", round(f1,3))
     
 if __name__ == "__main__":
     sys.exit(main())

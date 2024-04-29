@@ -12,6 +12,7 @@ class MyForm(FlaskForm):
 	model_choice = RadioField('Choose Model', choices=[
 		('bnb', 'Naive Bayes'), 
 		('lr', 'Logistic Regression'),
-		('cnn', 'CNN')
+		('cnn', 'CNN'),
+        ('bert', "BERT")
 	])
 	submit = SubmitField('Submit')
