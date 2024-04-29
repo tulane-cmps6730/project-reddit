@@ -9,7 +9,8 @@ import sys
 
 bnb, bnb_vectorizer = pickle.load(open(bnb_path, 'rb'))
 lr, lr_vectorizer = pickle.load(open(lr_path, 'rb'))
-model, tokenizer = pickle.load(open(cnn_path, 'rb'))
+with open(cnn_path, 'rb') as f:
+    model, tokenizer = pickle.load(f)
 
 labels = ['loss', 'win']
 

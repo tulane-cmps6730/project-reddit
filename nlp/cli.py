@@ -172,9 +172,8 @@ def train_cnn():
     
     vocab_size = len(tokenizer.word_index) + 1
     
-    
     X_val_sequences = tokenizer.texts_to_sequences(val_df["Comment_Adj"])
-    X_val = pad_sequences(X_val_sequences, padding='post', maxlen=87)
+    X_val = pad_sequences(X_val_sequences, padding='post', maxlen=maxlen)
     label_encoder = LabelEncoder()
     y_val = label_encoder.fit_transform(val_df["Result_Bin"])
     predictions = model.predict(X_val)
