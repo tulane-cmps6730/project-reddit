@@ -47,15 +47,12 @@ def index():
             proba = predictions_proba[0]
         elif model_choice == 'bert':
             tokenizer = BertTokenizerFast.from_pretrained('prajjwal1/bert-mini')
-            def tokenize(data, max_length=87):
-            return tokenizer(
-                data["Comment_Adj"].tolist(),
-                truncation=True,
-                padding="max_length",
-                max_length=max_length,
-                return_tensors="pt"
-            )
-            text = tokenize([input_field])
+            model = AutoModelForSequenceClassification.from_pretrained('/Users/jackiecollopy/Downloads/project-reddit/notebooks/bert.pth')
+            text = tokenizer(input_field, return_tensors="pt")
+            with torch.no_grad():
+                outputs = model(**text)
+            
+            predicted_class = torch.argmax(outputs.logits).item()
 
         return render_template('myform.html', title='', form=form, 
                                prediction=labels[pred], confidence='%.2f' % (proba * 100))
