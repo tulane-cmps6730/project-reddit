@@ -24,7 +24,7 @@ from tensorflow.keras.models import load_model
 #from tensorflow.keras.preprocessing.sequence import pad_sequences
 from sklearn.preprocessing import LabelEncoder
 
-from functions.functions_utils import process_text, cnn_process
+from nlp.functions.functions_utils import process_text, cnn_process
 from . import bnb_path, lr_path, cnn_path, lr_path, config, config_path
 
 @click.group()
