@@ -164,8 +164,8 @@ def train_cnn():
 
     try:
         
-        model = load_model(model_path, compile=False)
-        print("Model loaded successfully.")
+#model = load_model(model_path, compile=False)
+        #print("Model loaded successfully.")
         
         with open(tokenizer_path, 'rb') as handle:
             tokenizer = pickle.load(handle)
