@@ -24,9 +24,9 @@ from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.optimizers import Adam
 from sklearn.preprocessing import LabelEncoder
-from transformers import DistilBertTokenizerFast
-from transformers import TFDistilBertForSequenceClassification
-from transformers import set_seed
+import torch
+from torch.utils.data import DataLoader, Dataset, RandomSampler, SequentialSampler
+from transformers import DistilBertTokenizerFast, DistilBertForSequenceClassification
 from nlp.functions.functions_utils import process_text, cnn_process, basic_process
 from . import bnb_path, lr_path, cnn_path, lr_path, config, config_path
 
@@ -200,99 +200,66 @@ def train_bert():
     '''
     Get BERT
     '''
-    from transformers import DistilBertTokenizerFast
-    from transformers import TFDistilBertForSequenceClassification
-    from transformers import set_seed
-    import tensorflow as tf
-    from tqdm import tqdm
-    print(tf.__version__)
-
-    import os
-    os.environ["TF_USE_LEGACY_KERAS"] = "1"
-    
-    train_df = pd.read_csv(config.get('data', 'file1'))
-    val_df = pd.read_csv(config.get('data', 'file2'))
-    test_df = pd.read_csv(config.get('data', 'file3'))
-    
+    'https://drive.google.com/file/d/1K26N14tCziLm97ie7YeBBK8d_fz9oIg3/view?usp=sharing'
     tokenizer = DistilBertTokenizerFast.from_pretrained('distilbert-base-uncased')
-    
-    def tokenize(sentences, max_length=100, padding='max_length'):
+
+    def tokenize(data, max_length=87):
         return tokenizer(
-            sentences,
+            data["Comment_Adj"].tolist(),
             truncation=True,
-            padding=padding,
+            padding="max_length",
             max_length=max_length,
-            return_tensors="tf" 
+            return_tensors="pt"
         )
+
+    class CommentsDataset(Dataset):
+        def __init__(self, encodings, labels):
+            self.encodings = encodings
+            self.labels = torch.tensor(labels)
+    
+        def __getitem__(self, idx):
+            item = {key: torch.tensor(val[idx]) for key, val in self.encodings.items()}
+            item['labels'] = self.labels[idx]
+            return item
+    
+        def __len__(self):
+            return len(self.labels)
         
-    bert_x_train = train_df["Comment_Adj"].tolist()
-    bert_y_train = train_df["Result_Bin"].tolist()
-    bert_x_val = val_df["Comment_Adj"].tolist()
-    bert_y_val = val_df["Result_Bin"].tolist()
-
-    train_encodings = tokenize(bert_x_train)
-    val_encodings = tokenize(bert_x_val)
-
-    train_labels = tf.convert_to_tensor(bert_y_train, dtype=tf.int32)
-    val_labels = tf.convert_to_tensor(bert_y_val, dtype=tf.int32)
-
-    train_dataset = tf.data.Dataset.from_tensor_slices((
-        dict(train_encodings),  
-        train_labels
-    )).shuffle(1000).batch(30).prefetch(1)
-
-    validation_dataset = tf.data.Dataset.from_tensor_slices((
-        dict(val_encodings),  
-        val_labels
-    )).batch(30).prefetch(1)
-
-    model = TFDistilBertForSequenceClassification.from_pretrained('distilbert-base-uncased',num_labels=2)
-    optimizer = tf.keras.optimizers.Adam(learning_rate=5e-5)
-    model.compile(
-        optimizer=optimizer,
-        loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
-        metrics = ["accuracy"])
-
-    model.fit(
-        x=train_dataset,
-        y=None,
-        validation_data=validation_dataset,
-        batch_size=30,
-        epochs=2
-    )
-
-    bert_x_test = test_df["Comment_Adj"].tolist()
-    bert_y_test = test_df["Result_Bin"].tolist()
-
-    test_encodings = tokenize(bert_x_test)
-
-    test_labels = tf.convert_to_tensor(bert_y_test, dtype=tf.int32)
-
-    test_dataset = tf.data.Dataset.from_tensor_slices((
-        dict(test_encodings),  
-        test_labels
-    )).shuffle(1000).batch(30).prefetch(1)
-
-    results = model.evaluate(test_dataset)
-    print("Loss:", results[0])
-    print("Accuracy:", results[1])
-        
-
-    predictions = model.predict(test_dataset)
+        model = DistilBertForSequenceClassification.from_pretrained(
+            'distilbert-base-uncased',
+            num_labels=2,  # Ensure this matches the setup when the model was first created
+            state_dict=None  # We'll load the state_dict next
+            )
+    train_encodings = tokenize(train_df)
+    val_encodings = tokenize(val_df)
+    test_encodings = tokenize(test_df)
     
-    predicted_labels = tf.argmax(predictions.logits, axis=1)
+    train_dataset = CommentsDataset(train_encodings, train_df['Result_Bin'])
+    val_dataset = CommentsDataset(val_encodings, val_df['Result_Bin'])
+    test_dataset = CommentsDataset(test_encodings, test_df['Result_Bin'])
+    
+    train_loader = DataLoader(train_dataset, batch_size=100, shuffle=True)
+    val_loader = DataLoader(val_dataset, batch_size=100)
+    test_loader = DataLoader(test_dataset, batch_size=100)
+    
+    model.load_state_dict(torch.load('bert_1.pth'))
 
-    predicted_labels = predicted_labels.numpy()
+    model.eval()
+    predictions, true_labels = [], []
+    with torch.no_grad():
+        for batch in test_loader:
+            batch = {k: v.to(device) for k, v in batch.items()}
+            outputs = model(**batch)
+            logits = outputs.logits
+            predictions.extend(torch.argmax(logits, dim=-1).tolist())
+            true_labels.extend(batch['labels'].tolist())
     
-    # Calculate precision, recall, and F1 score
-    precision = precision_score(bert_y_test, predicted_labels)
-    recall = recall_score(bert_y_test, predicted_labels)
-    f1 = f1_score(bert_y_test, predicted_labels)
-    
+    precision = precision_score(true_labels, predictions)
+    recall = recall_score(true_labels, predictions)
+    f1 = f1_score(true_labels, predictions)
     print("Precision on Test:", precision)
     print("Recall on Test:", recall)
     print("F1 Score on Test:", f1)
-
-    pickle.dump(model, open(bert_path, 'wb'))
+    
 if __name__ == "__main__":
     sys.exit(main())
