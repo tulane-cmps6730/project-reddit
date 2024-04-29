@@ -249,7 +249,6 @@ def train_bert():
     val_loader = DataLoader(val_dataset, batch_size=100)
     test_loader = DataLoader(test_dataset, batch_size=100)
     
-    model.load_state_dict(torch.load('bert_1.pth'))
 
     model.eval()
     predictions, true_labels = [], []
