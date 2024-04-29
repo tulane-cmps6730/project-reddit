@@ -60,26 +60,6 @@ def dl_data():
         with open(data_file, 'wb') as f:  # Use 'wb' for writing in binary mode which is suitable for files downloaded from URLs
             f.write(response.content)
             
-@main.command('data2df')
-def data2df():
-    """
-    Get Dataframes (Do Second)
-    """
-    train_df = pd.read_csv(config.get('data', 'file1'))
-    val_df = pd.read_csv(config.get('data', 'file2'))
-    test_df = pd.read_csv(config.get('data', 'file3'))
-
-    # Optionally print DataFrames to verify contents
-    print("Train DataFrame:")
-    print(train_df.head())
-    print("Validation DataFrame:")
-    print(val_df.head())
-    print("Test DataFrame:")
-    print(test_df.head())
-
-    # Return the DataFrames as separate variables
-    return train_df, val_df, test_df
-
 
 def process_text(document):
 
@@ -206,8 +186,11 @@ def train_bert():
     # Download the file using requests library
     response = requests.get(file_url)
 
-    # Load the file into memory using torch.load
-    model_state_dict = torch.load(response.content, map_location=torch.device('cpu'))
+    # Load the file into a buffer
+    buffer = io.BytesIO(response.content)
+
+    # Load the model from the buffer
+    model_state_dict = torch.load(buffer, map_location=torch.device('cpu'))
     tokenizer = DistilBertTokenizerFast.from_pretrained('distilbert-base-uncased')
 
     def tokenize(data, max_length=87):
