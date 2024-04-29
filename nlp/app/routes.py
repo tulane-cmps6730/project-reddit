@@ -26,7 +26,7 @@ def index():
             text = process_text(input_field)
             text = bnb_vectorizer.transform([text])
             pred_labels = bnb.predict(text)
-			probas = bnb.predict_proba(text)  
+			probas = bnb.predict_proba(text)
 			pred = pred_labels[0]
 			proba = probas[0, pred]
         elif model_choice == 'lr':
