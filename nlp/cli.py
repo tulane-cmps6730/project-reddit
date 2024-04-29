@@ -18,8 +18,9 @@ from sklearn.linear_model import LogisticRegression
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 import tensorflow as tf
+from tensorflow import keras
 from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing.text import Tokenizer
+from keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from sklearn.preprocessing import LabelEncoder
 
