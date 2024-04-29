@@ -22,21 +22,20 @@ def index():
         model_choice = form.model_choice.data
         
         if model_choice == 'bnb':
-            model = bnb
-            text = process_text(input_field)
+            model = bnbtext = process_text(input_field)
             text = bnb_vectorizer.transform([text])
-			pred_labels = bnb.predict(text)
-			probas = bnb.predict_proba(text)
-			pred = pred_labels[0]
-			proba = probas[0, pred]
+            pred_labels = bnb.predict(text)
+            probas = bnb.predict_proba(text)
+            pred = pred_labels[0]
+            proba = probas[0, pred]
         elif model_choice == 'lr':
             model = lr
             text = process_text(input_field)
             text = lr_vectorizer.transform([text])
-			pred_labels = lr.predict(text)
-			probas = lr.predict_proba(text)
-			pred = pred_labels[0]
-			proba = probas[0, pred]
+            pred_labels = lr.predict(text)
+            probas = lr.predict_proba(text)
+            pred = pred_labels[0]
+            proba = probas[0, pred]
         elif model_choice == 'cnn':
             # For CNN, assuming preprocessing is handled differently or is built-in
             model = cnn
