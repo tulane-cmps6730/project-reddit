@@ -234,7 +234,7 @@ def train_bert():
     model.compile(
         optimizer=optimizer,
         loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
-        metrics = ["accuracy")
+        metrics = ["accuracy"])
 
     model.fit(
         x=train_dataset,
