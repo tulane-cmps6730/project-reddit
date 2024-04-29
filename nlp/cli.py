@@ -190,7 +190,11 @@ def train_cnn():
         
     pickle.dump(model, open(cnn_path, 'wb'))
     
-
+@main.command('train_cnn')
+def train_bert():
+    '''
+    Get BERT
+    '''
 
     
 if __name__ == "__main__":
