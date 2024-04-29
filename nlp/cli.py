@@ -159,21 +159,21 @@ def train_cnn():
     train_df = pd.read_csv(config.get('data', 'file1'))
     val_df = pd.read_csv(config.get('data', 'file2'))
     test_df = pd.read_csv(config.get('data', 'file3'))
-    
-    dir_path = os.path.dirname(os.path.realpath(__file__))
+
     model_path = '/Users/jackiecollopy/Downloads/project-reddit/nlp/cnn_model.h5'
+    tokenizer_path = '/Users/jackiecollopy/Downloads/project-reddit/nlp/tokenizer.pickle'  # Adjust path as needed
+
     try:
-        model = keras.models.load_model(model_path, compile=False)
-    except Exception as e:
-        print(f"Failed to load model: {e}")
-    tokenizer_path = os.path.join(dir_path, 'tokenizer.pickle')
-    try:
-        cnn = load_model(model_path)
+        # Load model
+        model = load_model(model_path, compile=False)
+        print("Model loaded successfully.")
+        # Load tokenizer
         with open(tokenizer_path, 'rb') as handle:
             tokenizer = pickle.load(handle)
+        print("Tokenizer loaded successfully.")
     except Exception as e:
         print(f"Error loading model or tokenizer: {e}")
-        return
+        
     X_train = train_df["Comment_Adj"].apply(cnn_process) # See functions_utils.py file
     X_val = val_df["Comment_Adj"].apply(cnn_process) # See functions_utils.py file
     
