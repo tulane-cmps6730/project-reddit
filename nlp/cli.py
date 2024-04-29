@@ -191,7 +191,7 @@ def train_cnn():
     recall = recall_score(y_val, predictions)
     print("Recall on Validation:", round(recall, 3))
 
-    pickle.dump((cnn), open(cnn_path, 'wb'))
+    pickle.dump((cnn,), open(cnn_path, 'wb'))
 
 
     
