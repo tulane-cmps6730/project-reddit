@@ -159,10 +159,35 @@ def train_cnn():
     test_df = pd.read_csv(config.get('data', 'file3'))
 
     model_path = '/Users/jackiecollopy/Downloads/project-reddit/nlp/cnn_model.h5'
+    model = load_model(model_path, compile=False)
 
-    try:
-        model = load_model(model_path, compile=False)
-        print("Model loaded successfully.")
+    tokenizer = Tokenizer()
+
+    texts = pd.concat([train_df["Comment_Adj"], val_df["Comment_Adj"], test_df["Comment_Adj"]])
+    tokenizer.fit_on_texts(texts)
+    all_sequences = tokenizer.texts_to_sequences(texts)
+
+    maxlen = np.percentile([len(x) for x in all_sequences], 95)  # 95th percentile
+    maxlen = int(maxlen)
+    
+    vocab_size = len(tokenizer.word_index) + 1
+    
+    
+    X_val_sequences = tokenizer.texts_to_sequences(val_df["Comment_Adj"])
+    X_val = pad_sequences(X_val_sequences, padding='post', maxlen=87)
+    label_encoder = LabelEncoder()
+    y_val = label_encoder.fit_transform(val_df["Result_Bin"])
+    predictions = best_model_cnn.predict(X_val)
+    predictions = (predictions > 0.5).astype(int) 
+    
+    f1 = f1_score(y_val, predictions)
+    print("F1 Score:", round(f1,3))
+    # Calculate Precision
+    precision = precision_score(y_val, predictions)
+    print("Precision:", round(precision, 3))
+    # Calculate recall
+    recall = recall_score(y_val, predictions)
+    print("Recall:", round(recall, 3))
         
 
     
