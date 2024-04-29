@@ -43,7 +43,7 @@ def index():
             text = basic_process(input_field)
             text = cnn_process(text)
             predictions_proba = cnn.predict(text)
-            pred = (predictions_proba > 0.5).astype(int)[0]  # Assuming binary classification
+            pred = (predictions_proba > 0.5).astype(int)
             proba = predictions_proba[0]
         elif model_choice == 'bert':
             tokenizer = BertTokenizerFast.from_pretrained('prajjwal1/bert-mini')
