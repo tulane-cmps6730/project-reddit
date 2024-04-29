@@ -1,4 +1,5 @@
 from flask import render_template, flash, redirect, session
+from tensorflow.keras.models import load_model
 from . import app
 from .forms import MyForm
 from .. import bnb_path, lr_path, cnn_path
