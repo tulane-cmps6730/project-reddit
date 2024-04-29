@@ -161,6 +161,7 @@ def train_cnn():
     test_df = pd.read_csv(config.get('data', 'file3'))
     
     dir_path = os.path.dirname(os.path.realpath(__file__))
+    model_path = '/Users/jackiecollopy/Downloads/project-reddit/nlp/cnn_model.h5'
     try:
         model = keras.models.load_model(model_path, compile=False)
     except Exception as e:
