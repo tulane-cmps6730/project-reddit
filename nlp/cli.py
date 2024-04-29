@@ -159,12 +159,14 @@ def train_cnn():
     train_df = pd.read_csv(config.get('data', 'file1'))
     val_df = pd.read_csv(config.get('data', 'file2'))
     test_df = pd.read_csv(config.get('data', 'file3'))
+    
     dir_path = os.path.dirname(os.path.realpath(__file__))
     model_path = os.path.join(dir_path, 'cnn_model.h5')
     tokenizer_path = os.path.join(dir_path, 'tokenizer.pickle')
-    cnn = load_model(model_path) # Model derived in Experiments-CNN.ipnyb file
+    cnn = load_model(model_path) # Model derived in Experiments-CNN.ipynb file
 
-    with open('tokenizer.pickle', 'rb') as handle:
+
+    with open(tokenizer_path, 'rb') as handle:
         tokenizer = pickle.load(handle)
 
     X_train = train_df["Comment_Adj"].apply(cnn_process) # See functions_utils.py file
