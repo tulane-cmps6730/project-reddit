@@ -177,7 +177,7 @@ def train_cnn():
     X_val = pad_sequences(X_val_sequences, padding='post', maxlen=87)
     label_encoder = LabelEncoder()
     y_val = label_encoder.fit_transform(val_df["Result_Bin"])
-    predictions = best_model_cnn.predict(X_val)
+    predictions = model.predict(X_val)
     predictions = (predictions > 0.5).astype(int) 
     
     f1 = f1_score(y_val, predictions)
