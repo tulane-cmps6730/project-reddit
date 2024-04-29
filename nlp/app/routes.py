@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect, session
 from . import app
 from .forms import MyForm
-from .model_loader import load_models
+
 from .. import bnb_path, lr_path, cnn_path
 from ..functions.functions_utils import process_text, basic_process, cnn_process
 
