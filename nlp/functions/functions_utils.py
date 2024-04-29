@@ -35,6 +35,8 @@ def cnn_process(document):
     document = [item.lower() for item in document]
     
     document = " ".join(document)
+
+    document = document.tolist()
     
     tokenizer = Tokenizer()
     tokenizer.fit_on_texts(document)
