@@ -192,7 +192,7 @@ def train_bert():
 
     # Load the model from the buffer
     model_state_dict = torch.load(buffer, map_location=torch.device('cpu'))
-    tokenizer = DistilBertTokenizerFast.from_pretrained('distilbert-base-uncased')
+    tokenizer = BertTokenizerFast.from_pretrained('prajjwal1/bert-mini')
 
     def tokenize(data, max_length=87):
         return tokenizer(
@@ -202,7 +202,6 @@ def train_bert():
             max_length=max_length,
             return_tensors="pt"
         )
-
     class CommentsDataset(Dataset):
         def __init__(self, encodings, labels):
             self.encodings = encodings
@@ -216,11 +215,6 @@ def train_bert():
         def __len__(self):
             return len(self.labels)
         
-        model = DistilBertForSequenceClassification.from_pretrained(
-            'distilbert-base-uncased',
-            num_labels=2,  # Ensure this matches the setup when the model was first created
-            state_dict=None  # We'll load the state_dict next
-            )
     train_encodings = tokenize(train_df)
     val_encodings = tokenize(val_df)
     test_encodings = tokenize(test_df)
