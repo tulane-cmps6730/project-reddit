@@ -207,7 +207,7 @@ def train_bert():
     from tqdm import tqdm
     print(tf.__version__)
 
-    !pip install -U tf_keras # Keras 2
+    pip install -U tf_keras # Keras 2
     import os
     os.environ["TF_USE_LEGACY_KERAS"] = "1"
     
