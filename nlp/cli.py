@@ -199,6 +199,10 @@ def train_bert():
     '''
     Get BERT
     '''
+    train_df = pd.read_csv(config.get('data', 'file1'))
+    val_df = pd.read_csv(config.get('data', 'file2'))
+    test_df = pd.read_csv(config.get('data', 'file3'))
+    
     tokenizer = DistilBertTokenizerFast.from_pretrained('distilbert-base-uncased')
     
     def tokenize(sentences, max_length=100, padding='max_length'):
