@@ -200,7 +200,14 @@ def train_bert():
     '''
     Get BERT
     '''
-    'https://drive.google.com/file/d/1K26N14tCziLm97ie7YeBBK8d_fz9oIg3/view?usp=sharing'
+    
+    file_url = 'https://drive.google.com/file/d/1K26N14tCziLm97ie7YeBBK8d_fz9oIg3/view?usp=sharing'
+
+    # Download the file using requests library
+    response = requests.get(file_url)
+
+    # Load the file into memory using torch.load
+    model_state_dict = torch.load(response.content, map_location=torch.device('cpu'))
     tokenizer = DistilBertTokenizerFast.from_pretrained('distilbert-base-uncased')
 
     def tokenize(data, max_length=87):
