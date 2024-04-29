@@ -22,7 +22,8 @@ def index():
         model_choice = form.model_choice.data
         
         if model_choice == 'bnb':
-            model = bnbtext = process_text(input_field)
+            model = bnb
+            text = process_text(input_field)
             text = bnb_vectorizer.transform([text])
             pred_labels = bnb.predict(text)
             probas = bnb.predict_proba(text)
