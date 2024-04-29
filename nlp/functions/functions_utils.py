@@ -24,31 +24,24 @@ def process_text(document):
     # Return the processed text
     return ' '.join(stemmed_tokens)
 
+def basic_process(document):
+    # Tokenize the document
+    tokens = document.split()
+    # Remove punctuation at the start and end of each token and convert to lowercase
+    tokens = [re.sub(r'^\W+|\W+$', '', token).lower() for token in tokens]
+    # Join processed tokens back into a string
+    processed_text = ' '.join(tokens)
+    return processed_text
 
-def cnn_process(document):
+def cnn_process(document, tokenizer, maxlen=100):
+    # Process the document text first
+    processed_document = process_text(document)
+    # Convert texts to sequences
+    sequences = tokenizer.texts_to_sequences([processed_document])
+    # Pad sequences
+    padded_sequences = pad_sequences(sequences, maxlen=maxlen, padding='post')
+    return padded_sequences
 
-    document = document.split()
-    
-    for item in document:
-        document = [re.sub(r'^\W+|\W+$', "", item) for item in document]
-            
-    document = [item.lower() for item in document]
-    
-    document = " ".join(document)
-
-    document = document.tolist()
-    
-    tokenizer = Tokenizer()
-    tokenizer.fit_on_texts(document)
-    
-    document = tokenizer.texts_to_sequences(document)
-    
-    vocab_size = len(tokenizer.word_index) + 1
-    
-    maxlen = 100
-    document = pad_sequences(document, padding='post', maxlen=maxlen)
-    
-    return document
 
 def bert_process(document):
     tokenizer = DistilBertTokenizer.from_pretrained('distilbert-base-uncased')

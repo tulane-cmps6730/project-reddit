@@ -164,18 +164,18 @@ def train_cnn():
     tokenizer_path = '/Users/jackiecollopy/Downloads/project-reddit/nlp/tokenizer.pickle'  # Adjust path as needed
 
     try:
-        # Load model
+        
         model = load_model(model_path, compile=False)
         print("Model loaded successfully.")
-        # Load tokenizer
+        
         with open(tokenizer_path, 'rb') as handle:
             tokenizer = pickle.load(handle)
         print("Tokenizer loaded successfully.")
     except Exception as e:
         print(f"Error loading model or tokenizer: {e}")
         
-    X_train = train_df["Comment_Adj"].apply(cnn_process) # See functions_utils.py file
-    X_val = val_df["Comment_Adj"].apply(cnn_process) # See functions_utils.py file
+    X_train = train_df["Comment_Adj"].apply(lambda x: cnn_process(x, tokenizer, maxlen=100))
+    X_val = val_df["Comment_Adj"].apply(lambda x: cnn_process(x, tokenizer, maxlen=100))
     
     predictions = cnn.predict(X_val)
     predictions = (predictions > 0.5).astype(int) 
