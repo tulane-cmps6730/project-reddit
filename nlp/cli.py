@@ -174,9 +174,11 @@ def train_cnn():
     except Exception as e:
         print(f"Error loading model or tokenizer: {e}")
         
-    X_train = train_df["Comment_Adj"].apply(lambda x: cnn_process(x, tokenizer, maxlen=100))
-    X_val = val_df["Comment_Adj"].apply(lambda x: cnn_process(x, tokenizer, maxlen=100))
-    
+    def process_with_tokenizer(text):
+        return cnn_process(text, tokenizer, maxlen=100)
+
+    X_train = train_df["Comment_Adj"].apply(process_with_tokenizer)
+    X_val = val_df["Comment_Adj"].apply(process_with_tokenizer)
     predictions = cnn.predict(X_val)
     predictions = (predictions > 0.5).astype(int) 
     
