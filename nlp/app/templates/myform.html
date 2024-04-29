@@ -8,7 +8,7 @@
     <title>Prediction Form</title>
 </head>
 <body>
-    <h1>Bucks in 6: The MKEBucks Subreddit Comment Prediction! </h1>
+    <h1>Comment Sentiment Prediction</h1>
     <form method="POST">
         {{ form.csrf_token }}
         <div>
@@ -16,9 +16,10 @@
             {{ form.input_field }}
         </div>
         <div>
-            {{ form.model_choice.label }}
+            <label>Choose Model:</label>
             {% for choice in form.model_choice %}
-                <label>{{ choice }}</label>
+                {{ choice }}
+                {{ choice.label }}
             {% endfor %}
         </div>
         <div>
