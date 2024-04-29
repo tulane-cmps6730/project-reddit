@@ -161,9 +161,8 @@ def train_cnn():
     model_path = '/Users/jackiecollopy/Downloads/project-reddit/nlp/cnn_model.h5'
 
     try:
-        
         model = load_model(model_path, compile=False)
-            print("Model loaded successfully.")
+        print("Model loaded successfully.")
         
 
     
