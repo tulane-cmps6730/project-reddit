@@ -22,6 +22,9 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from sklearn.preprocessing import LabelEncoder
+from transformers import DistilBertTokenizerFast
+from transformers import TFDistilBertForSequenceClassification
+from transformers import set_seed
 from nlp.functions.functions_utils import process_text, cnn_process, basic_process
 from . import bnb_path, lr_path, cnn_path, lr_path, config, config_path
 
@@ -195,7 +198,84 @@ def train_bert():
     '''
     Get BERT
     '''
-
+    tokenizer = DistilBertTokenizerFast.from_pretrained('distilbert-base-uncased')
     
+    def tokenize(sentences, max_length=100, padding='max_length'):
+    return tokenizer(
+        sentences,
+        truncation=True,
+        padding=padding,
+        max_length=max_length,
+        return_tensors="tf" 
+    )
+    bert_x_train = train_df["Comment_Adj"].tolist()
+    bert_y_train = train_df["Result_Bin"].tolist()
+    bert_x_val = val_df["Comment_Adj"].tolist()
+    bert_y_val = val_df["Result_Bin"].tolist()
+
+    train_encodings = tokenize(bert_x_train)
+    val_encodings = tokenize(bert_x_val)
+
+    train_labels = tf.convert_to_tensor(bert_y_train, dtype=tf.int32)
+    val_labels = tf.convert_to_tensor(bert_y_val, dtype=tf.int32)
+
+    train_dataset = tf.data.Dataset.from_tensor_slices((
+        dict(train_encodings),  
+        train_labels
+    )).shuffle(1000).batch(30).prefetch(1)
+
+    validation_dataset = tf.data.Dataset.from_tensor_slices((
+        dict(val_encodings),  
+        val_labels
+    )).batch(30).prefetch(1)
+
+    model = TFDistilBertForSequenceClassification.from_pretrained('distilbert-base-uncased',num_labels=2)
+    optimizer = tf.keras.optimizers.legacy.Adam(learning_rate=5e-5)
+    model.compile(
+        optimizer=optimizer,
+        loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+        metrics = ["accuracy")
+
+    model.fit(
+        x=train_dataset,
+        y=None,
+        validation_data=validation_dataset,
+        batch_size=30,
+        epochs=2
+    )
+
+    bert_x_test = test_df["Comment_Adj"].tolist()
+    bert_y_test = test_df["Result_Bin"].tolist()
+
+    test_encodings = tokenize(bert_x_test)
+
+    test_labels = tf.convert_to_tensor(bert_y_test, dtype=tf.int32)
+
+    test_dataset = tf.data.Dataset.from_tensor_slices((
+        dict(test_encodings),  
+        test_labels
+    )).shuffle(1000).batch(30).prefetch(1)
+
+    results = model.evaluate(test_dataset)
+    print("Loss:", results[0])
+    print("Accuracy:", results[1])
+        
+
+    predictions = model.predict(test_dataset)
+    
+    predicted_labels = tf.argmax(predictions.logits, axis=1)
+
+    predicted_labels = predicted_labels.numpy()
+    
+    # Calculate precision, recall, and F1 score
+    precision = precision_score(bert_y_test, predicted_labels)
+    recall = recall_score(bert_y_test, predicted_labels)
+    f1 = f1_score(bert_y_test, predicted_labels)
+    
+    print("Precision on Test:", precision)
+    print("Recall on Test:", recall)
+    print("F1 Score on Test:", f1)
+
+    pickle.dump(model, open(bert_path, 'wb'))
 if __name__ == "__main__":
     sys.exit(main())
