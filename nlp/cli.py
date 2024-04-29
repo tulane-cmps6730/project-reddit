@@ -200,6 +200,9 @@ def train_bert():
     '''
     Get BERT
     '''
+    import tensorflow as tf
+    print(tf.__version__)
+    
     train_df = pd.read_csv(config.get('data', 'file1'))
     val_df = pd.read_csv(config.get('data', 'file2'))
     test_df = pd.read_csv(config.get('data', 'file3'))
