@@ -200,7 +200,11 @@ def train_bert():
     '''
     Get BERT
     '''
+    from transformers import DistilBertTokenizerFast
+    from transformers import TFDistilBertForSequenceClassification
+    from transformers import set_seed
     import tensorflow as tf
+    from tqdm import tqdm
     print(tf.__version__)
     
     train_df = pd.read_csv(config.get('data', 'file1'))
