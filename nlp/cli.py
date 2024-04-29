@@ -22,7 +22,7 @@ import tensorflow as keras
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
-from tensorflow.keras.optimizers.legacy import Adam
+from tensorflow.keras.optimizers import Adam
 from sklearn.preprocessing import LabelEncoder
 from transformers import DistilBertTokenizerFast
 from transformers import TFDistilBertForSequenceClassification
@@ -237,7 +237,7 @@ def train_bert():
     )).batch(30).prefetch(1)
 
     model = TFDistilBertForSequenceClassification.from_pretrained('distilbert-base-uncased',num_labels=2)
-    optimizer = tf.keras.optimizers.legacy.Adam(learning_rate=5e-5)
+    optimizer = tf.keras.optimizers.Adam(learning_rate=5e-5)
     model.compile(
         optimizer=optimizer,
         loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
