@@ -71,11 +71,13 @@ def index():
                 proba = probas
             else:
                 prediction = "LOSS"
-                proba = 1 - probas
+                proba = probas
         elif model_choice == 'bert':
+           
             tokenizer = BertTokenizerFast.from_pretrained('prajjwal1/bert-mini')
             model = AutoModelForSequenceClassification.from_pretrained('/Users/jackiecollopy/Downloads/project-reddit/notebooks/bert.pth')
             text = tokenizer(input_field, return_tensors="pt")
+            
             with torch.no_grad():
                 outputs = model(**text)
             predicted_class = torch.argmax(outputs.logits).item()
@@ -86,7 +88,7 @@ def index():
                 proba = predicted_probability
             else:
                 prediction = "LOSS"
-                proba = 1 - predicted_probability
+                proba = predicted_probability
 
         return render_template('myform.html', title='', form=form, 
                                prediction=prediction, confidence='%.2f' % (proba * 100))
