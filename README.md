@@ -13,8 +13,7 @@ These models were evaluated according to their F1 score.
 
 ### Bernoulli Naive Bayes
 
-The Bernoulli Naive Bayes model was built using scikit-learn's BernoulliNB() package, and the model was designed to interpret both unigrams and bigrams.
-
+The Bernoulli Naive Bayes model was built using Python's \texttt{scikit-learn} library. The comments were tokenized using the \texttt{CountVectorizer()}, adhering to the Bag of Words model framework. For this model, the Reddit comments were stemmed, stopwords were removed, and non alphanumeric characters were removed. A simple modification was made to the default settings of \texttt{CountVectorizer()} and Bernoulli Naive Bayes in \texttt{scikit-learn} by allowing the model to capture bi-grams, as while the goal was to keep the Naive Bayes model simple, accounting for bi-grams made the model more robust and able to capture more nuances within the data.
 Below are some evaluation metrics for the model:
 
 - Precision: 0.574
@@ -33,13 +32,13 @@ Below are some evaluation metrics for the model:
 
 ### Convolutional Neural Network
 
-The Bernoulli Naive Bayes model was built using scikit-learn's BernoulliNB() package, and the model was designed to interpret both unigrams and bigrams.
+The Bernoulli Naive Bayes model was built using TensorFlow.
 
 Below are some evaluation metrics for the model:
 
-- Precision
-- Recall
-- F1
+- Precision: 0.665
+- Recall: 0.733
+- F1: 0.698
 
 ### Conclusions:
 
