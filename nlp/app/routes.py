@@ -88,7 +88,7 @@ def index():
                 proba = predicted_probability
             else:
                 prediction = "LOSS"
-                proba = 1 - predicted_probability
+                proba = predicted_probability
 
         return render_template('myform.html', title='', form=form, 
                                prediction=prediction, confidence='%.2f' % (proba * 100))
