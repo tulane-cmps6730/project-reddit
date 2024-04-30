@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""Demonstrating a very simple NLP project. Yours should be more exciting than this."""
+"""Text Classification Project"""
 import click
 import glob
 import pickle
@@ -59,12 +59,12 @@ def dl_data():
 
     print("Configuration file path:", config_path)
     
-    for i in range(1, 4):  # Ensure this matches the number of URLs in your configuration
+    for i in range(1, 4):  
         data_url = config.get('data', f'url{i}')
         data_file = config.get('data', f'file{i}')
         print('downloading from %s to %s' % (data_url, data_file))
         response = requests.get(data_url)
-        with open(data_file, 'wb') as f:  # Use 'wb' for writing in binary mode which is suitable for files downloaded from URLs
+        with open(data_file, 'wb') as f: 
             f.write(response.content)
             
 
@@ -74,15 +74,13 @@ def process_text(document):
     tokens = [re.sub(r'^\W+|\W+$', '', token) for token in tokens]
     tokens = [token.lower() for token in tokens]
     
-    # Remove stopwords
+    
     stop_words = set(stopwords.words('english'))
     tokens = [token for token in tokens if token not in stop_words]
-    
-    # Stem the tokens
+
     stemmer = PorterStemmer()
     stemmed_tokens = [stemmer.stem(token) for token in tokens]
     
-    # Join the tokens back into a string
     processed_text = ' '.join(stemmed_tokens)
     
     return processed_text
@@ -97,7 +95,7 @@ def train_nb():
     test_df = pd.read_csv(config.get('data', 'file3'))
 
     train_df["Comment"] = train_df["Comment"].apply(process_text)
-    bnb_vectorizer = CountVectorizer()
+    bnb_vectorizer = CountVectorizer(analyzer='word', ngram_range=(1, 2), binary=True)
     X_train = bnb_vectorizer.fit_transform(train_df["Comment"])
     y_train = train_df["Result_Bin"]
     test_df["Comment"] = val_df["Comment"].apply(process_text)
@@ -124,7 +122,7 @@ def train_lr():
     val_df = pd.read_csv(config.get('data', 'file2'))
 
     train_df["Comment"] = train_df["Comment"].apply(process_text)
-    lr_vectorizer = CountVectorizer()
+    lr_vectorizer = CountVectorizer(analyzer='word', ngram_range=(1, 2))
     X_train = lr_vectorizer.fit_transform(train_df["Comment"])
     y_train = train_df["Result_Bin"]
     val_df["Comment"] = val_df["Comment"].apply(process_text)
