@@ -27,11 +27,11 @@ Below are screenshots of a Demo designed to predict whether a comment followed a
 
 Here are the predictions for each model on this comment:
 
-![Naive Bayes](./docs/NBDemo.png)
+![Naive Bayes](NBDemo.png)
 
-![Logistic Regression](./docs/LRDemo.png)
+![Logistic Regression](LRDemo.png)
 
-![CNN](./docs/CNNDemo.png)
+![CNN](CNNDemo.png)
 
-![BERT](./docs/BERTDemo.png)
+![BERT](BERTDemo.png)
 
