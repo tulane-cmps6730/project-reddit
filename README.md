@@ -13,7 +13,13 @@ These models were evaluated according to their F1 score.
 
 ### Bernoulli Naive Bayes
 
-The Bernoulli Naive Bayes model was built using scikit-learn's 
+The Bernoulli Naive Bayes model was built using scikit-learn's BernoulliNB() package, and the model was designed to interpret both unigrams and bigrams.
+
+Below are some evaluation metrics for the model:
+
+- Precision
+- Recall
+- F1
 
 ### Demo Screenshots
 
@@ -22,6 +28,10 @@ Below are screenshots of a Demo designed to predict whether a comment followed a
 Here are the predictions for each model on this comment:
 
 ![Naive Bayes](docs/NBDemo.png)
+
 ![Logistic Regression](docs/LRDemo.png)
+
 ![CNN](docs/CNNDemo.png)
+
 ![BERT](docs/BERTDemo.png)
+
