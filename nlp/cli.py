@@ -94,13 +94,13 @@ def train_nb():
     Naive Bayes Model (Do Third)
     """
     train_df = pd.read_csv(config.get('data', 'file1'))
-    val_df = pd.read_csv(config.get('data', 'file2'))
+    test_df = pd.read_csv(config.get('data', 'file3'))
 
     train_df["Comment"] = train_df["Comment"].apply(process_text)
     bnb_vectorizer = CountVectorizer()
     X_train = bnb_vectorizer.fit_transform(train_df["Comment"])
     y_train = train_df["Result_Bin"]
-    val_df["Comment"] = val_df["Comment"].apply(process_text)
+    test_df["Comment"] = val_df["Comment"].apply(process_text)
     X_val = bnb_vectorizer.transform(val_df["Comment"]) 
     y_val = val_df["Result_Bin"]
 
