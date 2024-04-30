@@ -64,10 +64,10 @@ def index():
             probas = (preds > 0.5).astype(int) 
             if preds == 1:
                 prediction = "WIN"
-                proba = probas
+                proba = probas[1]
             else:
                 prediction = "LOSS"
-                proba = proba
+                proba = proba[0]
         elif model_choice == 'bert':
             tokenizer = BertTokenizerFast.from_pretrained('prajjwal1/bert-mini')
             model = AutoModelForSequenceClassification.from_pretrained('/Users/jackiecollopy/Downloads/project-reddit/notebooks/bert.pth')
