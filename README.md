@@ -1,4 +1,4 @@
-# CMPS 6730 Sample Project
+# Milwaukee Bucks Text Classification Project
 
 The goal of this project was to evaluate the performances of different machine learning models on a text classification task. The task was to predict whether a comment in the subreddit r/MkeBucks's postgame thread followed a win or a loss.
 
@@ -27,11 +27,11 @@ Below are screenshots of a Demo designed to predict whether a comment followed a
 
 Here are the predictions for each model on this comment:
 
-![Naive Bayes](docs/NBDemo.png)
+![Naive Bayes](./docs/NBDemo.png)
 
-![Logistic Regression](docs/LRDemo.png)
+![Logistic Regression](./docs/LRDemo.png)
 
-![CNN](docs/CNNDemo.png)
+![CNN](./docs/CNNDemo.png)
 
-![BERT](docs/BERTDemo.png)
+![BERT](./docs/BERTDemo.png)
 
