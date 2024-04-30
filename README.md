@@ -17,9 +17,31 @@ The Bernoulli Naive Bayes model was built using scikit-learn's BernoulliNB() pac
 
 Below are some evaluation metrics for the model:
 
+- Precision: 0.574
+- Recall: 0.953
+- F1: 0.717
+
+### Logistic Regression
+
+The Logistic Regression model was built using scikit-learn's LogisticRegression() package, and the model was designed to interpret both unigrams and bigrams.
+
+Below are some evaluation metrics for the model:
+
+- Precision: 0.661
+- Recall: 0.749
+- F1: 0.703
+
+### Convolutional Neural Network
+
+The Bernoulli Naive Bayes model was built using scikit-learn's BernoulliNB() package, and the model was designed to interpret both unigrams and bigrams.
+
+Below are some evaluation metrics for the model:
+
 - Precision
 - Recall
 - F1
+
+### Conclusions:
 
 ### Demo Screenshots
 
