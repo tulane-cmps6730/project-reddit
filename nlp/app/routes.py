@@ -3,6 +3,7 @@ from tensorflow.keras.models import load_model
 from transformers import BertTokenizerFast
 from transformers import BertForSequenceClassification, AdamW  
 from transformers import AutoModelForSequenceClassification
+import torch
 import numpy as np
 from . import app
 from .forms import MyForm
