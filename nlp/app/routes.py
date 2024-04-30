@@ -60,14 +60,14 @@ def index():
             model = load_model(model_path, compile=False)
             text = basic_process(input_field)
             text = cnn_process(text)
-            preds = model.predict(text)
-            probas = (preds > 0.5).astype(int) 
+            probas = model.predict(text)
+            preds = (probas > 0.5).astype(int) 
             if preds == 1:
                 prediction = "WIN"
-                proba = probas[1]
+                proba = probas
             else:
                 prediction = "LOSS"
-                proba = proba[0]
+                proba = probas
         elif model_choice == 'bert':
             tokenizer = BertTokenizerFast.from_pretrained('prajjwal1/bert-mini')
             model = AutoModelForSequenceClassification.from_pretrained('/Users/jackiecollopy/Downloads/project-reddit/notebooks/bert.pth')
