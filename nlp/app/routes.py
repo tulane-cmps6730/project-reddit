@@ -55,7 +55,7 @@ def index():
                 proba = positive_proba
             else:
                 prediction = "LOSS"
-                proba = positive_proba
+                proba = 1 - positive_proba
         
         elif model_choice == 'cnn':
             
@@ -71,7 +71,7 @@ def index():
                 proba = probas
             else:
                 prediction = "LOSS"
-                proba = probas
+                proba = 1 - probas
         elif model_choice == 'bert':
            
             tokenizer = BertTokenizerFast.from_pretrained('prajjwal1/bert-mini')
@@ -88,7 +88,7 @@ def index():
                 proba = predicted_probability
             else:
                 prediction = "LOSS"
-                proba = predicted_probability
+                proba = 1 - predicted_probability
 
         return render_template('myform.html', title='', form=form, 
                                prediction=prediction, confidence='%.2f' % (proba * 100))
