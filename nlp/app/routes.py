@@ -22,18 +22,21 @@ def index():
         input_field = form.input_field.data
         model_choice = form.model_choice.data
         prediction = None
+        proba = None  # Initialize proba variable
         if model_choice == 'bnb':
+            
             model = bnb
             text = process_text(input_field)
             text = bnb_vectorizer.transform([text])
             probas = bnb.predict_proba(text)
             positive_proba = probas[:, 1]
             if positive_proba > 0.5:
-                prediction == "WIN"
+                prediction = "WIN"  
                 proba = positive_proba
             else:
-                prediction == "LOSS"
+                prediction = "LOSS"  
                 proba = 1 - positive_proba
+        
         elif model_choice == 'lr':
             model = lr
             text = process_text(input_field)
@@ -56,6 +59,7 @@ def index():
             probas = model.predict(text)
             positive_proba = probas[:, 1]
             prediction = None
+            
             if positive_proba > 0.5:
                 prediction == "WIN"
                 proba = positive_proba
