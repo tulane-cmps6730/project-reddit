@@ -47,10 +47,10 @@ def index():
             positive_proba = probas[:, 1]
             
             if positive_proba > 0.5:
-                prediction == "WIN"
+                prediction = "WIN"
                 proba = positive_proba
             else:
-                prediction == "LOSS"
+                prediction = "LOSS"
                 proba = 1 - positive_proba
         
         elif model_choice == 'cnn':
@@ -64,10 +64,10 @@ def index():
             positive_proba = probas[:, 1]
             
             if positive_proba > 0.5:
-                prediction == "WIN"
+                prediction = "WIN"
                 proba = positive_proba
             else:
-                prediction == "LOSS"
+                prediction = "LOSS"
                 proba = 1 - positive_proba
         elif model_choice == 'bert':
             tokenizer = BertTokenizerFast.from_pretrained('prajjwal1/bert-mini')
