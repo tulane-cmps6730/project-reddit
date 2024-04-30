@@ -26,7 +26,6 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.optimizers import Adam
 from sklearn.preprocessing import LabelEncoder
 import torch
-
 from torch.utils.data import DataLoader, Dataset, RandomSampler, SequentialSampler
 from transformers import BertTokenizerFast
 from transformers import BertForSequenceClassification, AdamW  
