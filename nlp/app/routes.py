@@ -39,7 +39,7 @@ def index():
                 proba = positive_proba
             else:
                 prediction = "LOSS"  
-                proba = 1 - positive_proba
+                proba = positive_proba
         
         
         elif model_choice == 'lr':
@@ -55,7 +55,7 @@ def index():
                 proba = positive_proba
             else:
                 prediction = "LOSS"
-                proba = 1 - positive_proba
+                proba = positive_proba
         
         elif model_choice == 'cnn':
             
