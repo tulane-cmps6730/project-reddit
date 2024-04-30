@@ -36,7 +36,8 @@ def index():
             else:
                 prediction = "LOSS"  
                 proba = 1 - positive_proba
-        
+        prediction = None
+        proba = None
         elif model_choice == 'lr':
             model = lr
             text = process_text(input_field)
@@ -50,6 +51,8 @@ def index():
             else:
                 prediction == "LOSS"
                 proba = 1 - positive_proba
+        prediction = None
+        proba = None
         elif model_choice == 'cnn':
             # For CNN, assuming preprocessing is handled differently or is built-in
             model_path = '/Users/jackiecollopy/Downloads/project-reddit/nlp/cnn_model.h5'
