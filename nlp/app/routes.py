@@ -16,8 +16,6 @@ import sys
 
 bnb, bnb_vectorizer = pickle.load(open(bnb_path, 'rb'))
 lr, lr_vectorizer = pickle.load(open(lr_path, 'rb'))
-#cnn = pickle.load(open(lr_path, 'rb'))
-
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
@@ -61,7 +59,6 @@ def index():
         elif model_choice == 'cnn':
             
             
-            #model_path = '/Users/jackiecollopy/Downloads/project-reddit/nlp/cnn_model.h5'
             model_path = os.path.join('nlp', 'cnn_model.h5')
             model = load_model(model_path, compile=False)
             text = basic_process(input_field)
@@ -74,11 +71,11 @@ def index():
             else:
                 prediction = "LOSS"
                 proba = 1 - probas
+        
         elif model_choice == 'bert':
            
             tokenizer = BertTokenizerFast.from_pretrained('prajjwal1/bert-mini')
             model_path = os.path.join('nlp', 'bert.pth')
-            #model = AutoModelForSequenceClassification.from_pretrained('/Users/jackiecollopy/Downloads/project-reddit/notebooks/bert.pth')
             model = AutoModelForSequenceClassification.from_pretrained(model_path)
             text = tokenizer(input_field, return_tensors="pt")
             

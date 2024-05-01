@@ -53,7 +53,7 @@ def web(port):
 @main.command('dl-data')
 def dl_data():
     """
-    Get data (Do First)
+    Download the Data
     """
 
     print("Configuration file path:", config_path)
@@ -85,10 +85,10 @@ def process_text(document):
     return processed_text
 
 
-@main.command('train_nb')
+@main.command('nb')
 def train_nb():
     """
-    Naive Bayes Model (Do Third)
+    Get Naive Bayes Metrics
     """
     train_df = pd.read_csv(config.get('data', 'file1'))
     test_df = pd.read_csv(config.get('data', 'file3'))
@@ -97,58 +97,66 @@ def train_nb():
     bnb_vectorizer = CountVectorizer(analyzer='word', ngram_range=(1, 2), binary=True)
     X_train = bnb_vectorizer.fit_transform(train_df["Comment"])
     y_train = train_df["Result_Bin"]
-    test_df["Comment"] = val_df["Comment"].apply(process_text)
-    X_val = bnb_vectorizer.transform(val_df["Comment"]) 
-    y_val = val_df["Result_Bin"]
+    test_df["Comment"] = test_df["Comment"].apply(process_text)
+    X_test = bnb_vectorizer.transform(test_df["Comment"]) 
+    y_val = test_df["Result_Bin"]
 
     # Training the model
     bnb = BernoulliNB()
     bnb.fit(X_train, y_train)
 
     # Predicting and evaluating
-    y_pred = bnb.predict(X_val)
-    f1 = f1_score(y_val, y_pred)
+    y_pred = bnb.predict(X_test)
+    f1 = f1_score(y_test, y_pred)
+    precision = precision_score(y_test, y_pred)
+    recall = recall_score(y_test, y_pred)
     print("F1 Score:", round(f1, 3))
+    print("Precision:", round(precision,3))
+    print("Recall:", round(recall, 3))
+ 
     pickle.dump((bnb, bnb_vectorizer), open(bnb_path, 'wb'))
 
-@main.command('train_lr')
+@main.command('lr')
 def train_lr():
     """
-    Logistic Regression Model (Do Fourth)
+    Get Logistic Regression
     """
 
     train_df = pd.read_csv(config.get('data', 'file1'))
-    val_df = pd.read_csv(config.get('data', 'file2'))
+    test_df = pd.read_csv(config.get('data', 'file3'))
 
     train_df["Comment"] = train_df["Comment"].apply(process_text)
     lr_vectorizer = CountVectorizer(analyzer='word', ngram_range=(1, 2))
     X_train = lr_vectorizer.fit_transform(train_df["Comment"])
     y_train = train_df["Result_Bin"]
-    val_df["Comment"] = val_df["Comment"].apply(process_text)
-    X_val = lr_vectorizer.transform(val_df["Comment"]) 
-    y_val = val_df["Result_Bin"]
+    test_df["Comment"] = test_df["Comment"].apply(process_text)
+    X_test = lr_vectorizer.transform(test_df["Comment"]) 
+    y_test = test_df["Result_Bin"]
 
     # Training the model
     lr = LogisticRegression(max_iter = 1000)
     lr.fit(X_train, y_train)
 
     # Predicting and evaluating
-    y_pred = lr.predict(X_val)
-    f1 = f1_score(y_val, y_pred)
+    y_pred = lr.predict(X_test)
+    f1 = f1_score(y_test, y_pred)
+    precision = precision_score(y_test, y_pred)
+    recall = recall_score(y_test, y_pred)
     print("F1 Score:", round(f1, 3))
+    print("Precision:", round(precision,3))
+    print("Recall:", round(recall, 3))
     pickle.dump((lr, lr_vectorizer), open(lr_path, 'wb'))
 
-@main.command('train_cnn')
+@main.command('cnn')
 def train_cnn():
-    '''
-    Get CNN Model
-    '''
+    
+    
     train_df = pd.read_csv(config.get('data', 'file1'))
     val_df = pd.read_csv(config.get('data', 'file2'))
     test_df = pd.read_csv(config.get('data', 'file3'))
 
-    model_path = '/Users/jackiecollopy/Downloads/project-reddit/nlp/cnn_model.h5'
-    
+    #model_path = '/Users/jackiecollopy/Downloads/project-reddit/nlp/cnn_model.h5'
+    model_path = os.path.join('nlp', 'cnn_model.pth')
     model = load_model(model_path, compile=False)
 
     tokenizer = Tokenizer()
@@ -162,35 +170,34 @@ def train_cnn():
     
     vocab_size = len(tokenizer.word_index) + 1
     
-    X_val_sequences = tokenizer.texts_to_sequences(val_df["Comment_Adj"])
-    X_val = pad_sequences(X_val_sequences, padding='post', maxlen=maxlen)
+    X_test_sequences = tokenizer.texts_to_sequences(test_df["Comment_Adj"])
+    X_test = pad_sequences(X_test_sequences, padding='post', maxlen=maxlen)
     label_encoder = LabelEncoder()
-    y_val = label_encoder.fit_transform(val_df["Result_Bin"])
-    predictions = model.predict(X_val)
+    y_test = label_encoder.fit_transform(test_df["Result_Bin"])
+    predictions = model.predict(X_test)
     predictions = (predictions > 0.5).astype(int) 
     
-    f1 = f1_score(y_val, predictions)
+    f1 = f1_score(y_test, predictions)
     print("F1 Score:", round(f1,3))
-    # Calculate Precision
-    precision = precision_score(y_val, predictions)
+    precision = precision_score(y_test, predictions)
     print("Precision:", round(precision, 3))
-    # Calculate recall
-    recall = recall_score(y_val, predictions)
+    recall = recall_score(y_test, predictions)
     print("Recall:", round(recall, 3))
         
     pickle.dump(model, open(cnn_path, 'wb'))
     
-@main.command('train_bert')
+@main.command('bert')
 def train_bert():
     '''
-    Get BERT
+    Get BERT Metrics
     '''
     train_df = pd.read_csv(config.get('data', 'file1'))
     val_df = pd.read_csv(config.get('data', 'file2'))
     test_df = pd.read_csv(config.get('data', 'file3'))
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = AutoModelForSequenceClassification.from_pretrained('/Users/jackiecollopy/Downloads/project-reddit/notebooks/bert.pth')
+    model_path = os.path.join('nlp', 'bert.pth')
+    model = AutoModelForSequenceClassification.from_pretrained(model_path)
     tokenizer = BertTokenizerFast.from_pretrained('prajjwal1/bert-mini')
 
     def tokenize(data, max_length=87):
@@ -215,15 +222,15 @@ def train_bert():
             return len(self.labels)
         
     train_encodings = tokenize(train_df)
-    val_encodings = tokenize(val_df)
+    #val_encodings = tokenize(val_df)
     test_encodings = tokenize(test_df)
     
     train_dataset = CommentsDataset(train_encodings, train_df['Result_Bin'])
-    val_dataset = CommentsDataset(val_encodings, val_df['Result_Bin'])
+    #val_dataset = CommentsDataset(val_encodings, val_df['Result_Bin'])
     test_dataset = CommentsDataset(test_encodings, test_df['Result_Bin'])
     
     train_loader = DataLoader(train_dataset, batch_size=100, shuffle=True)
-    val_loader = DataLoader(val_dataset, batch_size=100)
+    #val_loader = DataLoader(val_dataset, batch_size=100)
     test_loader = DataLoader(test_dataset, batch_size=100)
     
 
