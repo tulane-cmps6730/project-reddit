@@ -99,7 +99,7 @@ def train_nb():
     y_train = train_df["Result_Bin"]
     test_df["Comment"] = test_df["Comment"].apply(process_text)
     X_test = bnb_vectorizer.transform(test_df["Comment"]) 
-    y_val = test_df["Result_Bin"]
+    y_test = test_df["Result_Bin"]
 
     # Training the model
     bnb = BernoulliNB()
@@ -247,9 +247,9 @@ def train_bert():
     precision = precision_score(true_labels, predictions)
     recall = recall_score(true_labels, predictions)
     f1 = f1_score(true_labels, predictions)
-    print("Precision on Test:", round(precision,3))
-    print("Recall on Test:", round(recall,3))
-    print("F1 Score on Test:", round(f1,3))
+    print("Precision:", round(precision,3))
+    print("Recall:", round(recall,3))
+    print("F1 Score:", round(f1,3))
     
 if __name__ == "__main__":
     sys.exit(main())
