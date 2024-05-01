@@ -55,7 +55,41 @@ Below are some evaluation metrics for the model:
 ### Conclusions:
 
 Although the Naive Bayes model had the highest F1 score, its relatively low precision score is cause for concern. Thus, it is difficult to generalize about the performances of these models on social media text classification tasks.
-### Demo Screenshots
+
+### Run the Demo:
+
+In order to run the demo: follow these steps.
+
+Install Virtual Environment:
+```bash
+pip install virtualenv
+```
+Create Folder:
+```bash
+virtualenv nlp-virtual
+```
+Activate Environment:
+```bash
+source nlp-virtual/bin/activate
+```
+Clone the repository:
+```bash
+git clone https://github.com/tulane-cmps6730/project-reddit.git
+```
+Install requirements:
+```bash
+pip install -r requirements.txt
+```
+
+Install Code:
+```bash
+python setup.py develop
+```
+Activate Site:
+```bash
+nlp --web
+```
+If you open your web browser and go to ```bash http://127.0.0.1:6331``` you should see something like### Demo Screenshots
 
 Below are screenshots of a Demo designed to predict whether a comment followed a win or a loss according to the selected model. Here are the predictions for the comment "This team is extremely talented, but I am worried about the three point shooting, and I am skeptical going forward."
 
