@@ -89,7 +89,9 @@ Activate Site:
 ```bash
 nlp --web
 ```
-If you open your web browser and go to ```bash http://127.0.0.1:6331``` you should see something like### Demo Screenshots
+If you open your web browser and go to ```http://127.0.0.1:6331```, you are ready to give the demo a try!
+
+### Demo Screenshots
 
 Below are screenshots of a Demo designed to predict whether a comment followed a win or a loss according to the selected model. Here are the predictions for the comment "This team is extremely talented, but I am worried about the three point shooting, and I am skeptical going forward."
 
