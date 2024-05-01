@@ -76,8 +76,9 @@ Clone the repository:
 ```bash
 git clone https://github.com/tulane-cmps6730/project-reddit.git
 ```
-Install requirements:
+Go to repository folder and Install requirements:
 ```bash
+cd folder
 pip install -r requirements.txt
 ```
 
