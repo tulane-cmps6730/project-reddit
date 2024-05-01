@@ -62,7 +62,7 @@ def index():
             
             
             #model_path = '/Users/jackiecollopy/Downloads/project-reddit/nlp/cnn_model.h5'
-            model_path = os.path.join('nlp', 'cnn_model.pth')
+            model_path = os.path.join('nlp', 'cnn_model.h5')
             model = load_model(model_path, compile=False)
             text = basic_process(input_field)
             text = cnn_process(text)
