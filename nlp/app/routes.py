@@ -10,12 +10,13 @@ from .forms import MyForm
 from .. import bnb_path, lr_path, cnn_path
 from ..functions.functions_utils import process_text, basic_process, cnn_process
 
+import os
 import pickle
 import sys
 
 bnb, bnb_vectorizer = pickle.load(open(bnb_path, 'rb'))
 lr, lr_vectorizer = pickle.load(open(lr_path, 'rb'))
-cnn = pickle.load(open(lr_path, 'rb'))
+#cnn = pickle.load(open(lr_path, 'rb'))
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -59,8 +60,9 @@ def index():
         
         elif model_choice == 'cnn':
             
-            # For CNN, assuming preprocessing is handled differently or is built-in
-            model_path = '/Users/jackiecollopy/Downloads/project-reddit/nlp/cnn_model.h5'
+            
+            #model_path = '/Users/jackiecollopy/Downloads/project-reddit/nlp/cnn_model.h5'
+            model_path = os.path.join('nlp', 'cnn_model.pth')
             model = load_model(model_path, compile=False)
             text = basic_process(input_field)
             text = cnn_process(text)
@@ -75,7 +77,9 @@ def index():
         elif model_choice == 'bert':
            
             tokenizer = BertTokenizerFast.from_pretrained('prajjwal1/bert-mini')
-            model = AutoModelForSequenceClassification.from_pretrained('/Users/jackiecollopy/Downloads/project-reddit/notebooks/bert.pth')
+            model_path = os.path.join('nlp', 'bert.pth')
+            #model = AutoModelForSequenceClassification.from_pretrained('/Users/jackiecollopy/Downloads/project-reddit/notebooks/bert.pth')
+            model = AutoModelForSequenceClassification.from_pretrained(model_path)
             text = tokenizer(input_field, return_tensors="pt")
             
             with torch.no_grad():

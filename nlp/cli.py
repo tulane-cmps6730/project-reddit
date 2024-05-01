@@ -148,6 +148,7 @@ def train_cnn():
     test_df = pd.read_csv(config.get('data', 'file3'))
 
     model_path = '/Users/jackiecollopy/Downloads/project-reddit/nlp/cnn_model.h5'
+    
     model = load_model(model_path, compile=False)
 
     tokenizer = Tokenizer()
