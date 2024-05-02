@@ -155,7 +155,6 @@ def train_cnn():
     val_df = pd.read_csv(config.get('data', 'file2'))
     test_df = pd.read_csv(config.get('data', 'file3'))
 
-    #model_path = '/Users/jackiecollopy/Downloads/project-reddit/nlp/cnn_model.h5'
     model_path = os.path.join('nlp', 'cnn_model.h5')
     model = load_model(model_path, compile=False)
 
@@ -222,15 +221,12 @@ def train_bert():
             return len(self.labels)
         
     train_encodings = tokenize(train_df)
-    #val_encodings = tokenize(val_df)
     test_encodings = tokenize(test_df)
     
     train_dataset = CommentsDataset(train_encodings, train_df['Result_Bin'])
-    #val_dataset = CommentsDataset(val_encodings, val_df['Result_Bin'])
     test_dataset = CommentsDataset(test_encodings, test_df['Result_Bin'])
     
     train_loader = DataLoader(train_dataset, batch_size=100, shuffle=True)
-    #val_loader = DataLoader(val_dataset, batch_size=100)
     test_loader = DataLoader(test_dataset, batch_size=100)
     
 
