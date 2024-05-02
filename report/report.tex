@@ -19,12 +19,12 @@
 \end{center}
 
 \begin{quote}
-This project consisted of designing a Bernoulli Naive Bayes model, a Logistic Regression model, a Convolutional Neural Network, and a BERT model. The project then assessed their respective performances on classifying Reddit comments in the r/MkeBucks subreddit according to thread label. The models were evaluated according to their F1 score, while precision and recall were analyzed as well. The results indicated that the Bernoulli Naive Bayes model performed best on both the validation and testing data; however, the model's relatively high number of false positive classifications speak both to the difficulties of classifying social media data as well as definitively determining the superiority of any model concerning this text classification problem.
+This project consisted of designing a Bernoulli Naive Bayes model, a Logistic Regression model, a Convolutional Neural Network, and a BERT model to classify Reddit comments in the r/MkeBucks subreddit according to thread label. The models were evaluated according to their F1 score, while precision and recall were analyzed as well. These metrics indicated that the Bernoulli Naive Bayes model performed best on both the validation and testing data; however, the model's relatively high number of false positive classifications speak both to the difficulties of classifying social media data as well as definitively determining the superiority of any model concerning this text classification problem.
 \end{quote}
 
 \section{Introduction}
 
-The goal of this project was to evaluate the performances of different text classification methods on domain-specific social media data. The data used are comments from Milwaukee Bucks's fans in post-game Reddit threads from the subreddit r/MkeBucks, and models were used to predict whether a comment in a post-game thread followed a win or a loss. The data consisted of over 9,000 comments following 64 games, at which point the Milwaukee Bucks had a record of 41 wins and 23 losses. Classifying social media content can be difficult due to the use of informal language, lack of context, and ambiguity, and in this specific domain, there was concern that these problems might be exacerbated in a space of passionate fans. There are questions as to which methods best handle such difficulties, and so the project will consist of implementing and evaluating different text classification methods on the Reddit comments mentioned above. For this project, Bernoulli Naive Bayes, Logistic Regression, a Convolutional Neural Network, and a BERT model were used for the classifications. The respective performances of the different methods might be of use to others searching to perform text classification on domain-specific social media content.
+The goal of this project was to evaluate the performances of different text classification methods on domain-specific social media data. The data used are comments from Milwaukee Bucks's fans in post-game Reddit threads from the subreddit r/MkeBucks, and models were used to predict whether a comment in a post-game thread followed a win or a loss. The data consisted of over 9,000 comments following 64 games, at which point the Milwaukee Bucks had a record of 41 wins and 23 losses. Classifying social media content can be difficult due to the use of informal language, lack of context, and ambiguity, and in this specific domain, there was concern that these problems might be exacerbated in a space of passionate fans. There are questions as to which methods best handle such difficulties, and so the project will consist of implementing and evaluating different text classification methods on the Reddit comments mentioned above. For this project, Bernoulli Naive Bayes, Logistic Regression, a Convolutional Neural Network, and a BERT model were used for the classifications. The respective performances of these different methods might be of use to others searching to perform text classification on domain-specific social media content.
 
 \section{Background/Related Work}
 
@@ -53,10 +53,10 @@ Hemant Purohit and contributors in their paper, "Intent classification of short-
 The Bernoulli Naive Bayes model was built using Python's \texttt{scikit-learn} library. The comments were tokenized using the \texttt{CountVectorizer()}, adhering to the Bag of Words model framework. For this model, the Reddit comments were stemmed, stopwords were removed, and non-alphanumeric characters were removed. A simple modification was made to the default settings of \texttt{CountVectorizer()} and Bernoulli Naive Bayes in \texttt{scikit-learn} by allowing the model to capture bi-grams, as while the goal was to keep the Naive Bayes model simple, accounting for bi-grams made the model more able to capture language patterns within the data.
 
 \subsection{Logistic Regression}
-The Logistic Regression model was built using Python's \texttt{scikit-learn} library. The comments were tokenized using the \texttt{CountVectorizer(}, adhering to the Bag of Words model framework. For this model, the Reddit comments were stemmed, stopwords were removed, and non alphanumeric characters were removed. A simple modification was made to the default settings of \texttt{CountVectorizer()} and Logistic Regression in \texttt{scikit-learn} by allowing the model to capture bi-grams, as while the goal was to keep the Logistic Regression model simple, accounting for bi-grams made the model more able to capture language patterns within the data.
+The Logistic Regression model was built using Python's \texttt{scikit-learn} library. The comments were tokenized using the \texttt{CountVectorizer()}, adhering to the Bag of Words model framework. For this model, the Reddit comments were stemmed, stopwords were removed, and non alphanumeric characters were removed. A simple modification was made to the default settings of \texttt{CountVectorizer()} and Logistic Regression in \texttt{scikit-learn} by allowing the model to capture bi-grams, as while the goal was to keep the Logistic Regression model simple, accounting for bi-grams made the model more able to capture language patterns within the data.
 
 \subsection{Convolutional Neural Network}
-The Convolutional Neural Network was constructed using \texttt{TensorFlow} and \texttt{Keras} libraries. The model was designed in a function with customizable hyperparameters such as number of filters, kernel size, number of dense layer neurons, learning rate, and dropout rate. The model's architecture consists of an embedding layer that maps text to dense vectors, a convolutional layer for feature extraction with a ReLU activation function, a max pooling layer to reduce dimensionality, a flattening step, and dense layers with L2 regularization targeted at binary classification through a sigmoid activation function. A major concern when designing this CNN was overfitting, and so an early stopping callback was implemented in the model. Then, a grid of the hyperparameters mentioned above was iterated over in order to determine the optimal model design. The hyperparameter-tuning indicated that the best model had hyperparameters: \texttt{filters = 48}, \texttt{kernel size = 4}, \texttt{number of dense layers = 40}, \texttt{learning rate = 0.001}, and \texttt{dropout rate = 0.6}.
+The Convolutional Neural Network was constructed using \texttt{TensorFlow} and \texttt{Keras} libraries. For this model, nonalphanumeric characters were removed, but the comments were not stemmed, and stopwords were left in, as it was anticipated that the Neural Network would better be able to navigate these features better than the Naive Bayes and Logistic Regression models. The model was designed in a function with customizable hyperparameters such as number of filters, kernel size, number of dense layer neurons, learning rate, and dropout rate. The model's architecture consists of an embedding layer that maps text to dense vectors, a convolutional layer for feature extraction with a ReLU activation function, a max pooling layer to reduce dimensionality, a flattening step, and dense layers with L2 regularization targeted at binary classification through a sigmoid activation function. A major concern when designing this CNN was overfitting, and so an early stopping callback was implemented in the model. Then, a grid of the hyperparameters mentioned above was iterated over in order to determine the optimal model design. The hyperparameter-tuning indicated that the best model had hyperparameters: \texttt{filters = 48}, \texttt{kernel size = 4}, \texttt{number of dense layers = 40}, \texttt{learning rate = 0.001}, and \texttt{dropout rate = 0.6}.
 
 Below are the formulas for the activation functions:
 
@@ -81,7 +81,7 @@ As seen in the figure, the validation accuracy stopped growing at around 8 epoch
 \subsection{BERT Model}
 The pre-trained BERT model selected for this task was the MiniBERT model from Python's HuggingFace library. This model was chosen largely due to the limited computational resources available for this project, as MiniBERT is smaller and faster than other BERT models. 
 
-The optimizer selected was Adam with a standard learning rate of `5e-5`. The training loop for this model consisted of a forward pass, in which a batch of size 30 was passed into the model, and a backward pass, in which the gradients were computed and model parameters updated according to the magnitude of the loss. Below is a visual showing the training vs. validation accuracy over 6 epochs.
+The optimizer selected was Adam with a standard learning rate of `5e-5`. The training loop for this model consisted of a forward pass, in which a batch of size 30 was passed into the model, and a backward pass, in which the gradients were computed and model parameters updated according to the magnitude of the Cross Entropy loss. Below is a visual showing the training vs. validation accuracy over 6 epochs.
 
 \begin{figure}[H]
     \centering
@@ -121,7 +121,7 @@ As seen in the table above, there is a stark difference between the model's Prec
     \caption{Confusion Matrix For N.B. Validation Data}
 \end{figure}
 
-The high number of False Positives in the confusion matrix above was concerning, but the low number of False Negatives helps offset this shortcoming, and this is reflected in the F1 score.
+The high number of False Positives in the confusion matrix above was concerning, but the low number of False Negatives helped offset this shortcoming, and this is reflected in the F1 score.
 
 \subsubsection{Logistic Regression}
 
@@ -316,10 +316,10 @@ The metrics and confusion matrix above indicate that the BERT model's relative s
 
 \subsection{Error Analysis}
 
-Perhaps the most striking result in the model evaluations was the low Precision score of the Naive Bayes, as it struggled to correctly predict comments that followed Losses. Thus, it is worth looking at some comments that the Naive Bayes model incorrectly predicted as a winning comment and the Logistic Regression, CNN, and BERT model correctly classified. Below is one of these comments:
+Perhaps the most striking result in the model evaluations was the low Precision score of the Naive Bayes, as it struggled to correctly predict comments that followed losses. Thus, it is worth looking at some comments that the Naive Bayes model incorrectly predicted as a winning comment and the Logistic Regression, CNN, and BERT model correctly classified. Below is one of these comments:
 
 \begin{center}
-\textit{"Dame is checked out and is perpetually lazy, apathetic, and downright stupid on the court. It’s miserable to watch. I miss Jrue, and Khris is better than Dame right now}
+\textit{Dame is checked out and is perpetually lazy, apathetic, and downright stupid on the court. It’s miserable to watch. I miss Jrue, and Khris is better than Dame right now}
 \end{center}
 
 This comment clearly is expressing some negative sentiment towards the Damian Lillard, one of their highest performing players, yet the Naive Bayes model predicted that it would be in a winning thread. Let's see some of the associated probabilities with each word following a loss:
@@ -376,15 +376,15 @@ right & -0.2622 \\
 \label{tab:word_coefficients}
 \end{table}
 
-Unlike in the Naive Bayes model, more of the words have negative coefficients, and words like "stupid" and "miss" have quite large negative coefficients, which explains the classification of the Logistic Regression model, which happens to be correct.
+Unlike in the Naive Bayes model, more of the words have losing associations, and words like "stupid" and "miss" have quite large negative coefficients, which explains the classification of the Logistic Regression model, which happens to be correct.
 
-As mentioned earlier, the Naive Bayes model does a very good job compared to the other models as correctly classifying comments from winning post-game threads. Thus
+As mentioned earlier, the Naive Bayes model does a very good job compared to the other models as correctly classifying comments from winning post-game threads. Thus, it is worth looking at an example that only it got correct. Here is such an example:
 
 \begin{center}
 \textit{Malik is playing well, sending him to the bench now will throw him off}
 \end{center}
 
-This is a very interesting example, as it compliments a player, but Logistic Regression, the Neural Network, and BERT model all incorrectly classified it as a losing comment. Here is a simple breakdown as to why when comparing some measurements from the Naive Bayes and Logistic Regression. The Logistic Regression model assigns negative coefficients to every word in the sentence except "sending", and thus it classifies the comment as a losing one. Below are the coefficients:
+This is a very interesting example, as it compliments a player, but Logistic Regression, the Neural Network, and BERT model all incorrectly classified it as a losing comment. Here is a simple breakdown as to why by comparing some measurements from the Naive Bayes and Logistic Regression. The Logistic Regression model assigns negative coefficients to every word in the sentence except "sending", and thus it classifies the comment as a losing one. Below are the coefficients:
 
 \begin{table}[H]
 \centering
@@ -398,6 +398,8 @@ bench & -0.3270 \\
 throw & -0.0845 \\
 \hline
 \end{tabular}
+\caption{Word Coefficients}
+\label{tab:word_coefficients}
 \end{table}
 
 On the other hand, the Naive Bayes model weakly associates "Malik", "playing", and "well" with losing, while it associates "sending", "bench", and "throwing" all more strongly with winning. Below are the probabilities of each word given a  win:
@@ -414,14 +416,16 @@ bench & 0.5251 \\
 throw & 0.5133 \\
 \hline
 \end{tabular}
+\caption{Word Coefficients}
+\label{tab:word_probabilities}
 \end{table}
 
 Thus, the different word assessments explain the different classifications. These different results speak to the difficulties in this task and how slightly different word evaluations lead to different results. Both comments above are relatively short, and perhaps more of an in-depth assessment on the part of the user would improve model performances and fewer differences between model results.
 
 \section{Conclusions}
-The main insight drawn from this analysis is the wide performance scope of the models. The Naive Bayes model had a very high recall score and a shockingly low precision score, while the BERT model had a very low recall score. That being said, their F1 score's were not very far apart. While the Naive Bayes seemingly handled the positive classifications very well, it would be interesting to see if this would hold across different NBA subreddits. As the scope of this project only pertains to a single subreddit, it would be interesting to evaluate the performances of these models across different subreddits for different NBA teams. As the Milwaukee Bucks won significantly more games than they lost, the nature of the comments in a subreddit of a losing team would likely be considerably different. Thus, the relative performances would likely change when used on different data, such as comments from the San Antonio Spurs subreddit. 
+The main insight drawn from this analysis is the wide performance scope of the models. The Naive Bayes model had a very high recall score and a shockingly low precision score, while the BERT model had a very low recall score. While the Naive Bayes seemingly handled the winning labels very well, it would be interesting to see if this would hold across different NBA subreddits. As the scope of this project only pertains to a single subreddit, it would be interesting to evaluate the performances of these models across different subreddits for different NBA teams. As the Milwaukee Bucks won significantly more games than they lost, the nature of the comments in a subreddit of a losing team would likely be considerably different. Thus, the relative performances would likely change when used on different data, such as comments from the San Antonio Spurs subreddit. 
 
-Essentially, this project does not yield profound insights regarding the general performances of these models on text classification, as this project's scope is rather niche. However, it was found that the traditional Bernoulli Naive Bayes method performed best, although only slightly.
+Essentially, this project does not yield definite insights regarding the general performances of these models on text classification, as this project's scope is rather niche. However, it was found that the traditional Bernoulli Naive Bayes method performed best, although only slightly and with legitimate shortcomings. On a different dataset, it is entirely possible that a different model would yield better metrics.
 
 
 \section{References}
